@@ -1,0 +1,120 @@
+@import '../../style/main';
+.GroupContainer {
+    width:30%;
+    height:70%;
+    position:absolute;
+    top:10%;
+    left:-100%;
+    z-index: 9999999;
+
+    @include animation;
+    .Groupinit {
+        background: #EDF2F4;
+        height: 100%;
+        flex: 1 1 70%;
+        border-radius: 4px;
+        border-top-right-radius: 4px;
+        border-bottom-right-radius: 4px;
+        transform: scale(1.035);
+        
+    }
+    .Groupmanager {
+      color:#000;
+      line-height: 1.5rem;
+      font-size: large;
+      text-align: center;
+      font-weight: 400;
+    }
+    .Groupp{
+      color:#000;
+      line-height: 1.5rem;
+      font-size: large;
+      text-align: center;
+      margin-top: 10rem;
+      font-weight: 400;
+    }
+   
+}
+@keyframes trues {
+    0% {
+      left:-100%;
+    }
+    100% {
+   
+      left:5%;
+    }
+  
+   
+}
+@keyframes falses {
+    0% {
+      left:5%;
+    }
+    100% {
+   
+      left:-100%;
+    }
+  
+   
+}
+.Groupinit {
+
+  height: 85%;
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: -1;
+  overflow-y: scroll;
+  scroll-snap-type: mandatory;
+  .Groupmessage {
+    display: block;
+    padding: 14px 24px;
+    .Groupmessageinner {
+      display:flex;
+      flex-direction: row;
+      .Groupmessageinnername {
+        color: #202124;
+        display: inline-block;
+        font-size: 10.24px;
+        font-weight: 500;
+        line-height: 19px;
+        padding-right: 8px;
+        word-wrap: break-word;
+      }
+      .Groupmessageinnertime {
+        color: #202124;
+        display: inline-block;
+        font-size: 10.24px;
+        font-weight: 500;
+        line-height: 19px;
+        padding-right: 8px;
+        word-wrap: break-word;
+      }
+    }
+    .Groupng-binding{
+      color: #202124;
+      font-size: 14px;
+      line-height: 20px;
+      padding-top: 10px;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      display: flex;
+      flex-direction: row;
+    }
+    .GroupNickname {
+      color: black;
+      font-weight: 700;
+    }
+    .GroupWarning1{
+      color: #f08c00;
+      font-weight: 650;
+    }
+    .GroupWarning2{
+      color: #e03131;
+      font-weight: 650;
+    }
+  }
+  
+  
+
+}
