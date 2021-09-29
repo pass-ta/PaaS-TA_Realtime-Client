@@ -5,7 +5,7 @@ import './Home.scss'
 import {AiOutlineAudioMuted, AiOutlineAudio,AiOutlineVideoCamera} from "react-icons/ai";
 import {BiVideoOff} from 'react-icons/bi'
 import {ImExit} from 'react-icons/im'
-import { BsChatSquareDots ,BsPersonCheck} from "react-icons/bs";
+import { BsChatSquareDots ,BsPersonCheck,BsPencil} from "react-icons/bs";
 import { useDispatch, useSelector } from 'react-redux';
 import {toggleVideoAudio} from '../store/action/index'
 import Chat from './ChatTemplate/Chat';
@@ -184,6 +184,12 @@ function Home() {
                                     <div id = "zxc4"className="preview_p">채팅하기</div>
                                     <div className="circleIcon" onClick={onClickChat} onMouseOver={()=>onMouseover("zxc4")} onMouseLeave={()=>onMouseLeave("zxc4")}>
                                         <BsChatSquareDots className="icon" />
+                                    </div>
+                                </div>
+                                <div className="previewInform">
+                                    <div id = "zxc6"className="preview_p">필기하기</div>
+                                    <div className="circleIcon" onClick={onClickChat} onMouseOver={()=>onMouseover("zxc6")} onMouseLeave={()=>onMouseLeave("zxc6")}>
+                                        <BsPencil className="icon" />
                                     </div>
                                 </div>
                                
