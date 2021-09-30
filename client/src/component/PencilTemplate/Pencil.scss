@@ -1,0 +1,80 @@
+@import '../../style/main';
+// Variables
+@media (max-width: 600px){
+  html, body{ 
+      font-size: 12px;
+  }
+}
+
+$bg-color: rgb(8, 142, 195);
+
+$inbox-primary: #EDF2F4;
+$inbox-secondary: lighten($bg-color, 7%);
+$inbox-width: 650px;
+$inbox-height: 450px;
+$inbox-radius: 4px;
+@keyframes true2 {
+  0% {
+    right:-100%;
+  }
+  100% {
+    right: 10%;
+   
+  }
+
+ 
+}
+@keyframes false2 {
+  100% {
+    right:-100%;
+
+     
+  }
+ 
+  
+  0% {
+    right:10%;
+
+  
+  }
+}
+
+
+
+// Inbox Styles
+.pencilContainer {
+  background: $inbox-primary;
+
+  // height: $inbox-height;
+  display: flex;
+  border-radius: $inbox-radius;
+  border-radius: 10%;
+  width:30%;
+  height:70%;
+  background-color: white;
+  position: fixed;
+  z-index: 1000000;
+  top:10%;
+  right:-100%;
+  @include animation;
+  
+
+}
+
+
+
+
+
+
+// Custom Scrollbars
+::-webkit-scrollbar {
+    width: 0px;
+}
+ 
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+ 
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+}

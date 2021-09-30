@@ -13,6 +13,7 @@ import { useParams } from 'react-router-dom'
 import swal from 'sweetalert'
 
 import Group from './GroupTemplate/Group';
+import Pencil from './PencilTemplate/Pencil';
 //배포용 서버 주소
 // const SERVERPATH = "https://118.67.131.138:30010/";
 // 테스트용 서버주소
@@ -36,6 +37,9 @@ function Home() {
     })
     const [otherChatsetting,SetOtherChatSetting] = useState({
         chat:false
+    })
+    const [otherPencilSetting,SetOtherPencilSetting] = useState({
+        pencil:false
     })
  
     //roomname , username, nickname call
@@ -92,6 +96,16 @@ function Home() {
         SetOtherChatSetting({
             ...otherChatsetting,
             chat:!otherChatsetting.chat
+        })
+
+        
+    }
+    const onClickPencil=(e)=> {
+        e.preventDefault()
+        onClickChangeBackgroundColor(e)
+        SetOtherPencilSetting({
+            ...otherPencilSetting,
+            pencil:!otherPencilSetting.pencil
         })
 
         
@@ -157,7 +171,7 @@ function Home() {
     return (
         <>
             <div className="HomeSection" >
-                <Section  setting = {setting} io = {io} userdata = {userdata}/> 
+                <Section  setting = {setting} otherPensilsetting={otherPencilSetting.pencil}  io = {io} userdata = {userdata}/> 
                 <Group setting = {otherGroupsetting.group} userdata=  {userdata.roomtype}/>
                 <Chat  setting = {otherChatsetting.chat} io = {io} userdata = {userdata}/>      
                 <div className="footer">
@@ -188,7 +202,7 @@ function Home() {
                                 </div>
                                 <div className="previewInform">
                                     <div id = "zxc6"className="preview_p">필기하기</div>
-                                    <div className="circleIcon" onClick={onClickChat} onMouseOver={()=>onMouseover("zxc6")} onMouseLeave={()=>onMouseLeave("zxc6")}>
+                                    <div className="circleIcon" onClick={onClickPencil} onMouseOver={()=>onMouseover("zxc6")} onMouseLeave={()=>onMouseLeave("zxc6")}>
                                         <BsPencil className="icon" />
                                     </div>
                                 </div>
@@ -211,7 +225,7 @@ function Home() {
                 </div>
             
             </div>
-            
+            <Pencil setting = {otherPencilSetting.pencil} userdata = {userdata}/>
             
         </>
     )

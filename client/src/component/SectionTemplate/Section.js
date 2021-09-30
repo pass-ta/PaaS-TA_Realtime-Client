@@ -355,7 +355,7 @@ function Section(props) {
             {/* <div id="gaze"  style={gazeStyle}>            
             </div> */}
 
-            <div className="SectionContainer">     
+            <div className="SectionContainer" style={{animationName:props.otherPensilsetting.toString()+"3"||"false3"}}>     
                  
                 <video
                     className="video"
