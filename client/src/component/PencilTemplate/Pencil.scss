@@ -18,7 +18,7 @@ $inbox-radius: 4px;
     right:-100%;
   }
   100% {
-    right: 10%;
+    right: 5%;
    
   }
 
@@ -33,7 +33,7 @@ $inbox-radius: 4px;
  
   
   0% {
-    right:10%;
+    right:5%;
 
   
   }
@@ -48,13 +48,13 @@ $inbox-radius: 4px;
   // height: $inbox-height;
   display: flex;
   border-radius: $inbox-radius;
-  border-radius: 10%;
-  width:30%;
-  height:70%;
+  border-radius: 2%;
+  width:50%;
+  height:80%;
   background-color: white;
   position: fixed;
   z-index: 1000000;
-  top:10%;
+  top:5%;
   right:-100%;
   @include animation;
   

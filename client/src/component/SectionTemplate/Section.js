@@ -349,11 +349,7 @@ function Section(props) {
         <>
 
            
-            <h1 id="title" align="center" style={titleStyle}></h1>
-         
-          
-            {/* <div id="gaze"  style={gazeStyle}>            
-            </div> */}
+           
 
             <div className="SectionContainer" style={{animationName:props.otherPensilsetting.toString()+"3"||"false3"}}>     
                  

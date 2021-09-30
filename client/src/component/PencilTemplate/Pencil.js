@@ -9,7 +9,12 @@ function Pencil(props) {
     return (
         <>
             <div className="pencilContainer" style={{animationName:props.setting.toString()+"2"||"false2"}}>
-                aa
+                <div className="leftBlock">
+
+                </div>
+                <div className="rightBlock">
+                    
+                </div>
             </div>
         </>
     )
