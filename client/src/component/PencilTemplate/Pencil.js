@@ -1,4 +1,6 @@
 import React from 'react'
+import CodeEditor from '../CodeEditorTemplate/CodeEditor'
+import CodeEditorPreview from '../CodeEditorPreviewTemplate/CodeEditorPreview'
 import './Pencil.scss'
 function Pencil(props) {
     console.log("필기 활성화 상태:"+JSON.stringify(props.setting))
@@ -10,10 +12,10 @@ function Pencil(props) {
         <>
             <div className="pencilContainer" style={{animationName:props.setting.toString()+"2"||"false2"}}>
                 <div className="leftBlock">
-
+                    <CodeEditor/>
                 </div>
                 <div className="rightBlock">
-                    
+                    <CodeEditorPreview/>
                 </div>
             </div>
         </>
