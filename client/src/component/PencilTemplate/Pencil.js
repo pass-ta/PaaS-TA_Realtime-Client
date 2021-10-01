@@ -1,12 +1,15 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 import CodeEditor from '../CodeEditorTemplate/CodeEditor'
 import CodeEditorPreview from '../CodeEditorPreviewTemplate/CodeEditorPreview'
 import './Pencil.scss'
+
 function Pencil(props) {
     console.log("필기 활성화 상태:"+JSON.stringify(props.setting))
 
     const {roomname,useremail,nickname,roomtype,userimage} = props.userdata
-   
+    const mydata = useSelector(state => state.writepencil)
+
  
     return (
         <>
@@ -15,7 +18,7 @@ function Pencil(props) {
                     <CodeEditor/>
                 </div>
                 <div className="rightBlock">
-                    <CodeEditorPreview/>
+                    <CodeEditorPreview mydata={mydata}/>
                 </div>
             </div>
         </>
