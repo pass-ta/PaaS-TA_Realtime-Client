@@ -5,7 +5,7 @@
     padding-left:.5rem;
     h1,h2,h3,h4,h5 {
         color:#000000 ;
-        padding: 2.5rem 0;
+        padding: 1.25rem 0;
         line-height: 1.2;
     }
     p {
@@ -14,20 +14,24 @@
             margin-top:1rem;
         }
     }
-    h1 {
-        font-size:3rem;
-        
+    h1,h2,h3 {
+        margin-top:0;
+        margin-bottom: 0;
     }
-    h2 {
+    h1 {
         font-size:2.5rem;
         
     }
-    h3 {
+    h2 {
         font-size:2rem;
         
     }
-    h4 {
+    h3 {
         font-size:1.75rem;
+        
+    }
+    h4 {
+        font-size:1.5rem;
        
     }
     blockquote {
@@ -44,6 +48,23 @@
         font-size: 15px;
         line-height: 1.6;
         margin-bottom: 1.6em;
+        max-width: 100%;
+        overflow: auto;
+        padding: 1em 1.5em;
+        display: block;
+        word-wrap: break-word;
+    }
+    .language-javascript{
+        background: #f4f4f4;
+        border: 1px solid #ddd;
+        border-left: 3px solid red;
+        color: #666;
+        page-break-inside: avoid;
+        font-family: monospace;
+        font-size: 15px;
+        line-height: 1.6;
+        margin-top: 0.8em;
+        margin-bottom: 0.8em;
         max-width: 100%;
         overflow: auto;
         padding: 1em 1.5em;

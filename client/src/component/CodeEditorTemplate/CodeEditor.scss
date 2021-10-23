@@ -1,51 +1,73 @@
+@import '../../style/main';
 .CodeEditor {
-    display:flex;
-    flex:1;
-    width:100%;
-    padding:0;
-    min-height:600px;
-    
-    overflow-y: scroll;
-    .editor {
-        display:flex;
-        min-width:0;
-        flex:1;
-        
-        .CodeMirror {
-            flex:1;
-            width:100%;
-            height:100%;
-            font-family: 'D2Coding';
-            font-size:1.25rem;
-            line-height:1.5rem;
-           
-            .cm-header {
-                color:#ae81ff ;
-            }
-            .cm-header-1 {
-                font-size:3rem;
-                line-height: 4rem;
-            }
-            .cm-header-2 {
-                font-size:2.5rem;
-                line-height: 3.5rem;
-            }
-            .cm-header-3 {
-                font-size:2rem;
-                line-height: 3rem;
-            }
-            .cm-header-4 {
-                font-size:1.75rem;
-                line-height: 2.5rem;
-            }
-            .cm-quote {
-                font-style: italic;
-            }
-            &.CodeMirror-empty {
-                color:gray;
-            }
-            
-            
+  display:flex;
+  flex:1;
+  width:100%;
+  padding:0;
+  min-height:600px;
+  
+  overflow-y: scroll;
+  &.material {
+    background: #263238;
+  }
+  .editor {
+   
+    min-width:0;
+   
+    .CodeMirror {
+      flex:1 1 0;
+      width:100%;
+      height:100%;
+      font-family: 'D2coding';
+      font-size:1.25rem;
+      line-height:1.5rem;
+
+      .CodeMirror-lines {
+        padding-left: 1rem;
+        padding-right: 1rem;
+
+      }
+
+      .cm-header {
+        line-height: 1.75;
+      }
+      .cm-header-1 {
+        font-size: 2.25rem;
+      }
+      .cm-header-2 {
+        font-size: 1.6825rem;
+      }
+      .cm-header-3 {
+        font-size: 1.3125rem;
+      }
+      .cm-header-4 {
+        font-size: 1.125rem;
+      }
+      &.cm-s-default {
+        border-right: 1px solid #e9ecef;
+        .cm-header {
+          color: #212529;
+          font-weight: 600;
+          &.cm-comment {
+            color: #495057;
+          }
         }
+      }
+      &.cm-s-material {
+        &.CodeMirror-empty {
+          color: #adb5bd;
+        }
+        .cm-header {
+          color: white;
+          &.cm-comment {
+            color: #868e96;
+          }
+        }
+        .cm-quote {
+          color: #adb5bd;
+          font-style: italic;
+        }
+      }
     }
+  }
 }

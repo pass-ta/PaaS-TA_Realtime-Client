@@ -1,5 +1,6 @@
 import React,{useEffect} from 'react'
 import {useDispatch} from 'react-redux'
+import {EditBody} from '../../store/action/index'
 import './CodeEditor.scss'
 import 'codemirror/lib/codemirror.css';
 import 'codemirror/addon/display/autorefresh';
@@ -19,7 +20,6 @@ import 'codemirror/mode/swift/swift'
 import 'codemirror/mode/ruby/ruby'
 //theme
 import 'codemirror/theme/monokai.css';
-import 'codemirror/lib/codemirror.css';
 import CodeMirror from 'codemirror'
 
 function CodeEditor() {
@@ -48,7 +48,7 @@ function CodeEditor() {
         state.cursor = doc.getCursor()
         state.body = doc.getValue()
         
-        // dispatch(EditBody(state.cursor,state.body,state.thumbnail[0]))
+        dispatch(EditBody(state.cursor,state.body))
    
     }
     return (
