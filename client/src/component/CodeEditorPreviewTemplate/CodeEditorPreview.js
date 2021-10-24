@@ -17,7 +17,6 @@ function CodeEditorPreview ({mydata}) {
         const pdfTable = document.getElementById("result_preview")
         var html = htmlToPdfmake(pdfTable.innerHTML)
         const documentDefinition = {content:html}
-        pdfMake.fonts
         pdfMake.vfs = pdfFonts.pdfMake.vfs;
         pdfMake.createPdf(documentDefinition).open()
     }
