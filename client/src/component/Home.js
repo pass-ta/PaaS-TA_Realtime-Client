@@ -5,7 +5,7 @@ import './Home.scss'
 import {AiOutlineAudioMuted, AiOutlineAudio,AiOutlineVideoCamera} from "react-icons/ai";
 import {BiVideoOff} from 'react-icons/bi'
 import {ImExit} from 'react-icons/im'
-import { BsChatSquareDots ,BsPersonCheck,BsPencil} from "react-icons/bs";
+import { BsChatSquareDots ,BsPersonCheck,BsPencil,BsArrowUpSquare} from "react-icons/bs";
 import { useDispatch, useSelector } from 'react-redux';
 import {toggleVideoAudio} from '../store/action/index'
 import Chat from './ChatTemplate/Chat';
@@ -14,6 +14,7 @@ import swal from 'sweetalert'
 
 import Group from './GroupTemplate/Group';
 import Pencil from './PencilTemplate/Pencil';
+import { use } from 'marked';
 //배포용 서버 주소
 // const SERVERPATH = "https://118.67.131.138:30010/";
 // 테스트용 서버주소
@@ -41,7 +42,9 @@ function Home() {
     const [otherPencilSetting,SetOtherPencilSetting] = useState({
         pencil:false
     })
- 
+    const [otherShareSetting,SetOtherShareSetting] = useState({
+        share:false
+    })
     //roomname , username, nickname call
     const userdata = useSelector(state=>state.getinform)
     //userdata를 검사하여 
@@ -88,6 +91,16 @@ function Home() {
         })
         dispatch(toggleVideoAudio(setting))
    
+        
+    }
+    const onClickShare=(e)=> {
+        e.preventDefault()
+        onClickChangeBackgroundColor(e)
+        SetOtherShareSetting({
+            ...otherShareSetting,
+            share:!otherShareSetting.share
+        })
+
         
     }
     const onClickChat=(e)=> {
@@ -171,7 +184,7 @@ function Home() {
     return (
         <>
             <div className="HomeSection" >
-                <Section  setting = {setting} otherPensilsetting={otherPencilSetting.pencil}  io = {io} userdata = {userdata}/> 
+                <Section  setting = {setting} otherPensilsetting={otherPencilSetting.pencil} otherShareSetting={otherShareSetting} io = {io} userdata = {userdata}/> 
                 <Group setting = {otherGroupsetting.group} userdata=  {userdata.roomtype}/>
                 <Chat  setting = {otherChatsetting.chat} io = {io} userdata = {userdata}/>      
                 <div className="footer">
@@ -192,6 +205,14 @@ function Home() {
                                         {                                           
                                             setting.video===true ? <AiOutlineVideoCamera  className="icon video" /> : <BiVideoOff className="icon video" />
                                         }
+                                    </div>
+                                </div>
+                                <div className="previewInform">
+                                    <div id = "zxc7" className="preview_p">화면 공유</div>
+                                    <div className="circleIcon"  onClick={e=>onClickShare(e)} onMouseOver={()=>onMouseover("zxc7")} onMouseLeave={()=>onMouseLeave("zxc7")} >
+                                                                              
+                                           <BsArrowUpSquare  className="icon" />
+                                    
                                     </div>
                                 </div>
                                 <div className="previewInform">

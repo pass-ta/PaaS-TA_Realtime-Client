@@ -4,13 +4,10 @@ import Video from '../VideoTemplate/index'
 import {Grid} from 'semantic-ui-react'
 import useMedia from '../../useMedia'
 import { useDispatch} from 'react-redux'
-import { BiLeftArrow } from 'react-icons/bi'
 import {receiveGazeData} from '../../store/action'
 import { Notify } from "notiflix";
 
 function Section(props) {
-    //Gaze.js에관한내용
-    let success = "fail";
     
     
     // 초기 video 화면 크기 >> 이후 방 입장인원따라 다르게 해주기
@@ -20,10 +17,7 @@ function Section(props) {
     
       
   
-  
-    const titleStyle={
-        color:"white"
-    }
+ 
     
   
  
@@ -77,7 +71,7 @@ function Section(props) {
         // Default column count
         1
     )
-
+    
 
 
 
@@ -86,7 +80,7 @@ function Section(props) {
   
     //footer부분을 home으로 다 옮기고
     //비디오와 오디오를 props로 section으로 보내주기 !
-
+    
     useEffect(()=> {
         console.log("props 상태"+JSON.stringify( props.setting))
         if(props.setting.video ===false && props.setting.audio ===false) {
@@ -152,7 +146,27 @@ function Section(props) {
        
 
     },[props.setting])
+    
+    //화면 공유 props.otherShareSetting 바뀔시 로직
+    useEffect(()=> {
+        console.log("share체크"+JSON.stringify(props.otherShareSetting))
+        const {share} = props.otherShareSetting
+        if (share) {
+            startCapture(props.setting)
+        }
+    },[props.otherShareSetting])
    
+    //화면 공유 startcaptuer 함수
+    async function startCapture(displayMeidaOptions) {
+        let captureStream = null
+
+        try {
+            captureStream = await navigator.mediaDevices.getDisplayMedia(displayMeidaOptions)
+        } catch(err) {
+            console.log("error:"+err)
+        }
+        return captureStream
+    }
 
     useEffect(()=> {
         io.on('all_users',(allUsers,mydata)=> {
