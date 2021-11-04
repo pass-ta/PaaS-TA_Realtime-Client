@@ -5,8 +5,8 @@ import {GiChessKing} from 'react-icons/gi'
 const Container = Styled.div`
     position: relative;
     display: inline-block;
-    width: 240px;
-    height: 270px;
+    width:20%;
+    height:20%;
     margin: 5px;
 `;
 
@@ -44,7 +44,7 @@ function Video({email, nickname,stream, roomowner,audio,video}) {
         <Container>
             {console.log("마지막 오디오 체크"+audio)}
             <video
-                style={{width:"240px" ,height:"240px",
+                style={{width:"100%" ,height:"100%",
                     backgroundColor: "black"}}
                 id ="videoindex"
                 ref={ref}

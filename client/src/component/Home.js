@@ -14,12 +14,11 @@ import swal from 'sweetalert'
 
 import Group from './GroupTemplate/Group';
 import Pencil from './PencilTemplate/Pencil';
-import { use } from 'marked';
 //배포용 서버 주소
 // const SERVERPATH = "https://118.67.131.138:30010/";
 // 테스트용 서버주소
 //const SERVERPATH = "";https://localhost:4000/
-const SERVERPATH = "https://118.67.131.138:30010/"
+const SERVERPATH = "https://localhost:4000/"
 const io = socket.connect(SERVERPATH);
 
 let start =Date.now()

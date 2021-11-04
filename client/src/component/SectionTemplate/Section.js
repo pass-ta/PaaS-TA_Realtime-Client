@@ -67,7 +67,7 @@ function Section(props) {
         // Media queries
         ['(min-width: 1024px)', '(min-width: 768px)', '(min-width: 400px)'],
         // Column counts (relates to above media queries by array index)
-        [3, 2, 1],
+        [4, 3, 2 , 1],
         // Default column count
         1
     )
@@ -146,28 +146,37 @@ function Section(props) {
        
 
     },[props.setting])
-    
+    //--------------------------화면 공유-------------------
     //화면 공유 props.otherShareSetting 바뀔시 로직
     useEffect(()=> {
         console.log("share체크"+JSON.stringify(props.otherShareSetting))
         const {share} = props.otherShareSetting
         if (share) {
-            startCapture(props.setting)
+            startCapture({
+                video: {
+                  cursor: "always"
+                },
+                audio: false
+              })
+            //방 전체 인원에게 share 메세지를 보내준다.
+            io.emit("sharesetting",props.otherShareSetting)
         }
     },[props.otherShareSetting])
    
+    //실시간 다른 사용자 share 받을 useEffect
+    io.on("receive_sharesetting",(data)=> {
+        console.log("share데이터 체크"+JSON.stringify(data))
+    })
     //화면 공유 startcaptuer 함수
-    async function startCapture(displayMeidaOptions) {
-        let captureStream = null
-
+    async function startCapture(displayMediaOptions) {
+        const videoElem = document.getElementById("sharevideo")
         try {
-            captureStream = await navigator.mediaDevices.getDisplayMedia(displayMeidaOptions)
+            videoElem.srcObject = await navigator.mediaDevices.getDisplayMedia(displayMediaOptions)
         } catch(err) {
             console.log("error:"+err)
         }
-        return captureStream
     }
-
+    //--------------------------------------------------------
     useEffect(()=> {
         io.on('all_users',(allUsers,mydata)=> {
             len = allUsers.length
@@ -367,18 +376,19 @@ function Section(props) {
 
             <div className="SectionContainer" style={{animationName:props.otherPensilsetting.toString()+"3"||"false3"}}>     
                  
-                <video
-                    className="video"
-                    id="showvideoid"
-                    muted
-                    ref={videolocalref}
-                 
-
-                    autoPlay>
-                </video>
+                
                 {console.log("길이"+users.length)}
                 <Grid divided = "vertically">
                     <Grid.Row columns = {columnCount}>
+                        <video
+                            className="video"
+                            id="showvideoid"
+                            muted
+                            ref={videolocalref}
+                        
+
+                            autoPlay>
+                        </video>
                         {users.map((user,index)=> {
                             return (
                                 <Video
@@ -394,7 +404,10 @@ function Section(props) {
                             )
                         })}
                     </Grid.Row>
-                </Grid>     
+                </Grid>
+             
+                <video id="sharevideo" autoPlay></video>
+                   
             </div>
         
                 
