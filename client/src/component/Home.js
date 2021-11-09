@@ -7,6 +7,7 @@ import {BiVideoOff} from 'react-icons/bi'
 import {ImExit} from 'react-icons/im'
 import { BsChatSquareDots ,BsPersonCheck,BsPencil,BsArrowUpSquare} from "react-icons/bs";
 import { useDispatch, useSelector } from 'react-redux';
+import {MdOutlineSubtitles} from 'react-icons/md'
 import {toggleVideoAudio} from '../store/action/index'
 import Chat from './ChatTemplate/Chat';
 import { useParams } from 'react-router-dom'
@@ -184,7 +185,7 @@ function Home() {
         <>
             <div className="HomeSection" >
                 <Section  setting = {setting} otherPensilsetting={otherPencilSetting.pencil} otherShareSetting={otherShareSetting} io = {io} userdata = {userdata}/> 
-                <Group setting = {otherGroupsetting.group} userdata=  {userdata.roomtype}/>
+                {/* <Group setting = {otherGroupsetting.group} userdata=  {userdata.roomtype}/> */}
                 <Chat  setting = {otherChatsetting.chat} io = {io} userdata = {userdata}/>      
                 <div className="footer">
                     <div className="menu">
@@ -228,9 +229,9 @@ function Home() {
                                 </div>
                                
                                 <div className="previewInform">
-                                    <div id = "zxc5" className="preview_p">관리자 모드</div>
+                                    <div id = "zxc5" className="preview_p">자막</div>
                                     <div className="circleIcon" onClick={onClickGroup} onMouseOver={()=>onMouseover("zxc5")} onMouseLeave={()=>onMouseLeave("zxc5")}>
-                                      <BsPersonCheck className="icon fullscreen"/>
+                                      <MdOutlineSubtitles className="icon fullscreen"/>
                                     </div>      
                                 </div>
                                 <div className="previewInform">

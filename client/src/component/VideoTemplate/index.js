@@ -17,7 +17,7 @@ const VideoContainer = Styled.video`
 
 
 
-function Video({email, nickname,stream, roomowner,audio,video}) {
+function Video({email, nickname,stream, roomowner,audio,video,share}) {
     const ref = useRef(null);
  
     console.log(typeof audio)
@@ -37,11 +37,15 @@ function Video({email, nickname,stream, roomowner,audio,video}) {
         }else {
             ref.current.srcObject = stream;
         }
-       
+        console.log(share)
+        if(share) {
+            document.getElementById('aa').style.width="80%"
+            document.getElementById('aa').style.height="20%"
+        }
     },[])
-
+    
     return (
-        <Container>
+        <Container id="aa">
             {console.log("마지막 오디오 체크"+audio)}
             <video
                 style={{width:"100%" ,height:"100%",
