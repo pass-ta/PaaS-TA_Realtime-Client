@@ -1,11 +1,13 @@
 import React ,{ useEffect, useRef,useState}from 'react'
 import './Section.scss'
 import Video from '../VideoTemplate/index'
-import {Grid} from 'semantic-ui-react'
+import {Grid, Portal} from 'semantic-ui-react'
 import useMedia from '../../useMedia'
 import { useDispatch} from 'react-redux'
 import {receiveGazeData} from '../../store/action'
 import { Notify } from "notiflix";
+import socket from 'socket.io-client'
+import {RTCMultiConnection} from 'rtcmulticonnection'
 
 function Section(props) {
     
@@ -25,7 +27,7 @@ function Section(props) {
     
 
 
-    const io = props.io
+    var io = props.io
     const userdata = props.userdata
     
  
@@ -48,7 +50,8 @@ function Section(props) {
     var videoremoteref = useRef(null)
     let localStream;
     let len;
-    
+    let shareref = useRef(null)
+    let captureStream;
   
     // //pcConfig에는 stun turn 서버를 적게되는데 rtc 중계를 끊어지는 걸 대비한
     // // 임시서버이다 https://gist.github.com/yetithefoot/7592580
@@ -101,7 +104,7 @@ function Section(props) {
                 
                 localStream = stream
                 videolocalref.current.srcObject = stream 
-                 
+                
                 io.emit('join room',{
                     'room':userdata.roomname,
                     'email':userdata.useremail,
@@ -109,7 +112,8 @@ function Section(props) {
                     'roomtype':userdata.roomtype,
                     'roomowner':userdata.roomowner,
                     'audio':props.setting.audio,
-                    'video':props.setting.video
+                    'video':props.setting.video,
+                    'share':props.otherShareSetting.share
                 })
                 
                 
@@ -159,25 +163,187 @@ function Section(props) {
                 audio: false
               })
             //방 전체 인원에게 share 메세지를 보내준다.
-            io.emit("sharesetting",props.otherShareSetting)
+           
         }
     },[props.otherShareSetting])
-   
+    
     //실시간 다른 사용자 share 받을 useEffect
-    io.on("receive_sharesetting",(data)=> {
-        console.log("share데이터 체크"+JSON.stringify(data))
-    })
+    
     //화면 공유 startcaptuer 함수
+    // window.addEventListener("message",event=> {
+    //     console.log("event+"+JSON.stringify(event))
+    //     const streamId = event.data.streamId
+    //     console.log("streamid="+streamId)
+    //     if(streamId){
+    //         io.emit("sharesetting",props.otherShareSetting,streamId)
+    //     }else {
+    //         //streamId 가져오기 실패
+    //     }
+    // })
     async function startCapture(displayMediaOptions) {
         const videoElem = document.getElementById("sharevideo")
         try {
-            videoElem.srcObject = await navigator.mediaDevices.getDisplayMedia(displayMediaOptions)
+            // window.postMessage("message","*")
+            captureStream = await navigator.mediaDevices.getDisplayMedia(displayMediaOptions)
+            videoElem.srcObject = captureStream
+            io.disconnect()
+            const SERVERPATH = "https://localhost:4000/"
+            io = socket.connect(SERVERPATH);
+            io.on("connect",()=>{
+                console.log(io.id)
+                io.emit('join room',{
+                    'room':userdata.roomname,
+                    'email':userdata.useremail,
+                    'nickname':userdata.nickname,
+                    'roomtype':userdata.roomtype,
+                    'roomowner':userdata.roomowner,
+                    'audio':props.setting.audio,
+                    'video':props.setting.video,
+                    'share':props.otherShareSetting.share
+                })
+                io.on('all_users',(allUsers,mydata)=> {
+                    len = allUsers.length
+                    console.log("allUsers :"+JSON.stringify(allUsers))
+                    
+                    for(let i=0; i<len; i++){
+                        console.log("현재 방의 참가자는 :"+allUsers[i].id)
+                        console.log('io의 아이디'+io.id)
+                        console.log("share이 가야 할 방향"+mydata.share)
+                        if(mydata.share){
+        
+                            createPeerConnection(allUsers[i].id,allUsers[i].email,allUsers[i].nickname,allUsers[i].roomowner ,allUsers[i].audio,allUsers[i].video,io,captureStream,mydata.share)
+                        }else {
+                            createPeerConnection(allUsers[i].id,allUsers[i].email,allUsers[i].nickname,allUsers[i].roomowner ,allUsers[i].audio,allUsers[i].video,io,localStream,mydata.share)
+        
+                        }
+                            
+                        
+                        let pc = pcs[allUsers[i].id]
+                        
+                        if(pc){
+                            //
+                            //                     iceRestart 선택 과목
+                            // 활성 연결에서 ICE를 다시 시작하려면 이것을 로 설정하십시오 
+                            //true. 이렇게 하면 반환된 제안이 이미 있는 것과 다른 자격 증명을 갖게 됩니다.
+                            //그런 다음 반환된 제안을 적용하면 ICE가 다시 시작됩니다. false동일한 자격 
+                            //증명을 유지하고 ICE를 다시 시작하지 않도록 지정 합니다. 
+                            //기본값은 false 입니다.
+                            //re rendering 되더라도 자격증명이 똑같으면 offer이 새로 되지 않는다
+                            pc.createOffer({
+                                iceRestart : true,
+                                offerToReceiveAudio:true,
+                                offerToReceiveVideo:true
+                            })
+                            .then(sdp=> {
+                                console.log(sdp)
+                                console.log('원격 연결 신청(나 자신):create offer success')
+                                pc.setLocalDescription(new RTCSessionDescription(sdp))
+                                io.emit('offer',{
+                                    sdp:sdp,
+                                    offerSendId:io.id,
+                                    offerSendEmail:userdata.useremail,
+                                    offerSendNickname:userdata.nickname,
+                                    offerroomowner:userdata.roomowner,
+                                    offerReciveID:allUsers[i].id,
+                                    audio:mydata.audio,
+                                    video:mydata.video,
+                                    share:mydata.share
+                                
+                                })
+                                
+                            }).catch(error=> {
+                                console.log(error)
+                            })
+                        }
+                    }
+                })
+                io.on('getOffer',(data)=> {
+                    console.log('get offer')
+                    createPeerConnection(data.offerSendId,data.offerSendEmail,data.offerSendnickname,data.offerroomowner,data.audio,data.video,io,localStream,data.share)
+                    console.log("22222222222"+data.audio+data.video)
+                    let pc = pcs[data.offerSendId]
+                    if(pc) {
+                        pc.setRemoteDescription(new RTCSessionDescription(data.sdp)).then(()=> {
+                            console.log('원격 연결 완료(연결 받기) answer set remote description success')
+                            
+                            pc.createAnswer({
+                                offerToReceiveVideo:true,
+                                offerToReceiveAudio:true})
+                            .then(sdp=> {
+                                console.log('create answer success')
+                                pc.setLocalDescription(new RTCSessionDescription(sdp))
+                                io.emit('answer',{
+                                    sdp:sdp,
+                                    answerSendID:io.id,
+                                    answerREceiveID:data.offerSendId
+        
+                                })
+                            }).catch(error=> {
+                                console.log(error)
+                            })
+                        })
+                    }
+                })
+                io.on('getAnswer',(data)=> {
+                    console.log('get answer')
+                    let pc = pcs[data.answerSendID]
+                    if(pc) {
+                        pc.setRemoteDescription(new RTCSessionDescription(data.sdp))
+                    }
+                })
+                io.on('getCandidate',(data)=> {
+                    
+                    let pc=  pcs[data.candidateSendID]
+                    if(pc) {
+                        pc.addIceCandidate(new RTCIceCandidate(data.candidate)).then(()=> {
+                            //
+                        })
+                    }
+                })
+        
+                io.on('user_exit',data=> {
+        
+                    pcs[data.id].close()
+                    delete pcs[data.id]
+                    setUsers(oldUsers=>oldUsers.filter(user=> user.id!==data.id))
+        
+                   
+        
+                    Notify.failure(`${data.nickname}님이 나갔습니다.`);
+                    
+                   
+                })
+                //만약 지금 사용자가 방장이면
+                //receiveGazeAlert를 받았다면,
+                io.on('receiveGazeAlert',(data)=> {
+                    console.log(`receive: ${data.nickname} == ${data.email}이가 부정행위를 ${data.gazeOption.gaze}번 한다!!!`)
+                    Notify.warning("부정행위 알림")
+                    dispatch(receiveGazeData(data))
+                })
+            })
+            console.log("share보내고 io의 id"+io.id)
+            
+            
         } catch(err) {
             console.log("error:"+err)
         }
     }
+    
+    // const gotStream = screenStream => {
+    //     const videoElem = document.getElementById("sharevideo")
+    //     videoElem.srcObject = screenStream
+        
+    //     console.log("여기까지 오나?")
+    //     // shareref.current.srcObject = screenStream
+    // }
+    // const onFail = err => {
+    //     console.log("실패요인"+err)
+    // }
+
+    
     //--------------------------------------------------------
     useEffect(()=> {
+        
         io.on('all_users',(allUsers,mydata)=> {
             len = allUsers.length
             console.log("allUsers :"+JSON.stringify(allUsers))
@@ -185,8 +351,16 @@ function Section(props) {
             for(let i=0; i<len; i++){
                 console.log("현재 방의 참가자는 :"+allUsers[i].id)
                 console.log('io의 아이디'+io.id)
+                console.log("share이 가야 할 방향"+mydata.share)
+                if(mydata.share){
+
+                    createPeerConnection(allUsers[i].id,allUsers[i].email,allUsers[i].nickname,allUsers[i].roomowner ,allUsers[i].audio,allUsers[i].video,io,captureStream,mydata.share)
+                }else {
+                    createPeerConnection(allUsers[i].id,allUsers[i].email,allUsers[i].nickname,allUsers[i].roomowner ,allUsers[i].audio,allUsers[i].video,io,localStream,mydata.share)
+
+                }
+                    
                 
-                createPeerConnection(allUsers[i].id,allUsers[i].email,allUsers[i].nickname,allUsers[i].roomowner ,allUsers[i].audio,allUsers[i].video,io,localStream)
                 let pc = pcs[allUsers[i].id]
                 
                 if(pc){
@@ -215,7 +389,8 @@ function Section(props) {
                             offerroomowner:userdata.roomowner,
                             offerReciveID:allUsers[i].id,
                             audio:mydata.audio,
-                            video:mydata.video
+                            video:mydata.video,
+                            share:mydata.share
                         
                         })
                         
@@ -227,8 +402,7 @@ function Section(props) {
         })
         io.on('getOffer',(data)=> {
             console.log('get offer')
-            
-            createPeerConnection(data.offerSendId,data.offerSendEmail,data.offerSendnickname,data.offerroomowner,data.audio,data.video,io,localStream)
+            createPeerConnection(data.offerSendId,data.offerSendEmail,data.offerSendnickname,data.offerroomowner,data.audio,data.video,io,localStream,data.share)
             console.log("22222222222"+data.audio+data.video)
             let pc = pcs[data.offerSendId]
             if(pc) {
@@ -269,12 +443,18 @@ function Section(props) {
                 })
             }
         })
+
         io.on('user_exit',data=> {
+
             pcs[data.id].close()
             delete pcs[data.id]
-            Notify.failure(`${data.nickname}님이 나갔습니다.`);
             setUsers(oldUsers=>oldUsers.filter(user=> user.id!==data.id))
 
+           
+
+            Notify.failure(`${data.nickname}님이 나갔습니다.`);
+            
+           
         })
         //만약 지금 사용자가 방장이면
         //receiveGazeAlert를 받았다면,
@@ -299,8 +479,9 @@ function Section(props) {
    
 
 
-    const createPeerConnection = (socketID, email,nickname,roomowner ,audio,video,newSocket, localStream)=> {
+    const createPeerConnection = (socketID, email,nickname,roomowner ,audio,video,newSocket, localStream,share)=> {
         let pc = new RTCPeerConnection(pcConfig);
+        
         if (localStream) {
             console.log('localstream add');
             localStream.getTracks().forEach(track => {
@@ -323,7 +504,6 @@ function Section(props) {
             });
           }
         }
-    
         pc.oniceconnectionstatechange = (e) => {
           console.log(e);
         }
@@ -340,12 +520,12 @@ function Section(props) {
             roomowner:roomowner,
             audio:audio,
             video:video,
-            stream: e.streams[0]
+            stream: e.streams[0],
+            share:share
           }]);
           console.log(JSON.stringify(users))
+          
         }
-    
-       
     
         // return pc
         return pc;
@@ -370,10 +550,6 @@ function Section(props) {
 
     return (
         <>
-
-           
-           
-
             <div className="SectionContainer" style={{animationName:props.otherPensilsetting.toString()+"3"||"false3"}}>     
                  
                 
@@ -399,14 +575,15 @@ function Section(props) {
                                     audio = {user.audio}
                                     video = {user.video}
                                     stream={user.stream}
+                                    share={user.share}
                                 />
                         
                             )
                         })}
                     </Grid.Row>
                 </Grid>
-             
-                <video id="sharevideo" autoPlay></video>
+                        
+                <video id="sharevideo" autoPlay ref={shareref}></video>
                    
             </div>
         
