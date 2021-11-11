@@ -187,7 +187,7 @@ function Section(props) {
             captureStream = await navigator.mediaDevices.getDisplayMedia(displayMediaOptions)
             videoElem.srcObject = captureStream
             io.disconnect()
-            const SERVERPATH = "https://localhost:4000/"
+            const SERVERPATH = "https://192.168.35.242:4000"
             io = socket.connect(SERVERPATH);
             io.on("connect",()=>{
                 console.log(io.id)
