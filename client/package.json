@@ -16,7 +16,7 @@
     "jspdf": "^2.4.0",
     "marked": "^3.0.4",
     "moment": "^2.29.1",
-    "node-sass": "^4.14.0",
+
     "notiflix": "^3.0.1",
     "pdfmake": "^0.2.2",
     "react": "^17.0.2",
@@ -67,13 +67,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "permissions": {
-    "audio-capture": {
-      "description": "Required to capture audio using getUserMedia()"
-    },
-    "video-capture": {
-      "description": "Required to capture video using getUserMedia()"
-    }
   }
+  
 }
