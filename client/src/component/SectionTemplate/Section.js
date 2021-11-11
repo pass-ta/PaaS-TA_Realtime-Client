@@ -113,7 +113,7 @@ function Section(props) {
                     'roomowner':userdata.roomowner,
                     'audio':props.setting.audio,
                     'video':props.setting.video,
-                    'share':props.otherShareSetting.share
+                    'share':false
                 })
                 
                 
@@ -521,12 +521,13 @@ function Section(props) {
             audio:audio,
             video:video,
             stream: e.streams[0],
-            share:share
+            share:false
           }]);
           console.log(JSON.stringify(users))
-          
+          if(share && props.otherShareSetting.share===false) shareref.current.srcObject = e.streams[0]
+         
         }
-    
+        
         // return pc
         return pc;
     
@@ -545,8 +546,7 @@ function Section(props) {
  
 
    
-
-
+    
 
     return (
         <>
