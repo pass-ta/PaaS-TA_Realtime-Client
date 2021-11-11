@@ -1,2 +1,9 @@
-# PaaS-TA_testrepo
-레포이름, 조직이름 바꿀거임 리액트 테스트용
+# PaaS-TA_Realtime_Client
+
+혜원 - STT 확인용 test (Section을 바꿈)
+
+#### * 주의
+
+package.json , package-lock.json 다름
+
+
