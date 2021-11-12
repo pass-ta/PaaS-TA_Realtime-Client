@@ -80,12 +80,19 @@ function Section(props) {
 
 
 
+    let interim_transcript = "init";
   
     //footer부분을 home으로 다 옮기고
     //비디오와 오디오를 props로 section으로 보내주기 !
     
     useEffect(()=> {
         console.log("props 상태"+JSON.stringify( props.setting))
+        // STT를 위해서 크롬확인
+        if (typeof webkitSpeechRecognition !== 'function') {
+            alert('크롬에서만 동작 합니다.');
+            return false;
+        }
+
         if(props.setting.video ===false && props.setting.audio ===false) {
             try {
                 videolocalref.current.srcObject.getTracks()[0].stop()
@@ -116,8 +123,48 @@ function Section(props) {
                     'share':false
                 })
                 
+                console.log("혜원: 아마 화면공유시작")
                 
-               
+                const FIRST_CHAR = /\S/;
+                const TWO_LINE = /\n\n/g;
+                const ONE_LINE = /\n/g;
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                const recognition = new SpeechRecognition();
+                const language = 'ko-KR';
+
+                let isRecognizing = false;
+                let ignoreEndProcess = false;
+                let finalTranscript = '';
+
+                recognition.continuous = true;
+                recognition.interimResults = true;
+
+
+
+                // start 
+                recognition.start();
+                console.log("혜원 : START")
+
+                let final_transcript = "";
+
+                // result 
+                recognition.onresult = (event) => {
+                    // Create the interim transcript string locally because we don't want it to persist like final transcript
+                    
+
+                    // Loop through the results from the speech recognition object.
+                    for (let i = event.resultIndex; i < event.results.length; ++i) {
+                        // If the result item is Final, add it to Final Transcript, Else add it to Interim transcript
+                        if (event.results[i].isFinal) {
+                        final_transcript += event.results[i][0].transcript;
+                        } else {
+                        interim_transcript += event.results[i][0].transcript;
+                        }
+                    }
+                    // 준영 여기 
+                    document.querySelector("#subtitle") = interim_transcript;
+                    console.log("혜원TAG : ",interim_transcript )
+                };              
              
                 
              }).catch((err)=> {
@@ -584,6 +631,8 @@ function Section(props) {
                 </Grid>
                         
                 <video id="sharevideo" autoPlay ref={shareref}></video>
+
+                <a id="subtitles"> {userdata.nickname} {interim_transcript} </a>
                    
             </div>
         

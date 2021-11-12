@@ -20,7 +20,7 @@ import Pencil from './PencilTemplate/Pencil';
 // 테스트용 서버주소
 //const SERVERPATH = "https://192.168.35.242:4000"
 
-const SERVERPATH = "https://192.168.35.242:4000"
+const SERVERPATH = "https://127.0.0.1:4000"
 const io = socket.connect(SERVERPATH);
 
 let start =Date.now()
