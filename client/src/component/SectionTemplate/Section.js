@@ -249,7 +249,7 @@ function Section(props) {
             videoElem.srcObject = captureStream
             recognition.close()
             io.disconnect()
-            const SERVERPATH = "https://localhost:4000"
+            const SERVERPATH = "https://realtimeserver.paas-ta.org/"
             io = socket.connect(SERVERPATH);
             io.on("connect",()=>{
                 console.log(io.id)
@@ -285,13 +285,16 @@ function Section(props) {
                         if (event.results[i].isFinal) {
                             final_transcript = event.results[i][0].transcript;
                             // console.log(final_transcript)
-                            io.emit('stt_message',{
+                            io.emit('translate_stt_message',{
                                 'nickname':userdata.nickname,
-                                'message':final_transcript
+                                'message':event.results[i][0].transcript
                             })
                         } else {
                             interim_transcript += event.results[i][0].transcript;
-             
+                            io.emit('stt_message',{
+                                'nickname':userdata.nickname,
+                                'message':event.results[i][0].transcript
+                            })
                                 
                          
                             
@@ -421,8 +424,13 @@ function Section(props) {
                     Notify.warning("부정행위 알림")
                     dispatch(receiveGazeData(data))
                 })
+                  //korean
                 io.on('receive_stt_message',data=> {
-                    
+                    dispatch(receiveSubtitleData(data))
+                })
+                //번역본 (english)
+                io.on('translate_stt_message',data=> {
+                    dispatch(receiveTranslateSubtitleData(data))
                 })
                 
             })
