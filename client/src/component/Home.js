@@ -16,11 +16,11 @@ import swal from 'sweetalert'
 import Group from './GroupTemplate/Group';
 import Pencil from './PencilTemplate/Pencil';
 //배포용 서버 주소
-// const SERVERPATH = "https://118.67.131.138:30010/";
+// const SERVERPATH = "https://realtimeserver.paas-ta.org/";
 // 테스트용 서버주소
 //const SERVERPATH = "https://192.168.35.242:4000"
 
-const SERVERPATH = "https://127.0.0.1:4000"
+const SERVERPATH = "https://realtimeserver.paas-ta.org/"
 const io = socket.connect(SERVERPATH);
 
 let start =Date.now()
@@ -57,14 +57,14 @@ function Home() {
     useEffect(()=> {
         //roomname을 잘못 치고 들어온경우
         if(window.performance.navigation.type ===1) {
-           window.location.assign("https://118.67.131.138:30020/errorpage")
+           window.location.assign("https://realtimeserver.paas-ta.org/errorpage")
         }
         if(userdata.roomname!==id) {
-            window.location.assign("https://118.67.131.138:30020/errorpage")
+            window.location.assign("https://realtimeserver.paas-ta.org/errorpage")
             //userdata가 다르다고  에러페이지로 전송
         }
         if(userdata.nickname==="") {
-            window.location.assign("https://118.67.131.138:30020/errorpage")
+            window.location.assign("https://realtimeserver.paas-ta.org/errorpage")
         }
         
 
@@ -162,7 +162,7 @@ function Home() {
                 // window.location.assign("https://cranky-bohr-e0f18a.netlify.app/errorpage")
                 let end = Date.now()
                 //django 서버로 연결되어있던 시간을 보내주기 위함.
-                window.location.assign(`https://118.67.131.138:30000/main/roomout/${end-start}/${userdata.roomtype}`)
+                window.location.assign(`https://realtimeserver.paas-ta.org/main/roomout/${end-start}/${userdata.roomtype}`)
             }else {
                 //아무 동작 하지 않는다.
                 return;

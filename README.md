@@ -1,6 +1,6 @@
 # PaaS-TA_Realtime_Client
 
-혜원 - STT 확인용 test (Section을 바꿈)
+혜원 - Translate 확인용 test
 
 #### * 주의
 

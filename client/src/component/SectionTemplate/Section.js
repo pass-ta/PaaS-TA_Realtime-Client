@@ -162,7 +162,7 @@ function Section(props) {
                         }
                     }
                     // 준영 여기 
-                    document.querySelector("#subtitle") = interim_transcript;
+                    // document.querySelector("#subtitle") = interim_transcript;
                     console.log("혜원TAG : ",interim_transcript )
                 };              
              
@@ -234,7 +234,7 @@ function Section(props) {
             captureStream = await navigator.mediaDevices.getDisplayMedia(displayMediaOptions)
             videoElem.srcObject = captureStream
             io.disconnect()
-            const SERVERPATH = "https://192.168.35.242:4000"
+            const SERVERPATH = "https://realtimeserver.paas-ta.org/"
             io = socket.connect(SERVERPATH);
             io.on("connect",()=>{
                 console.log(io.id)
