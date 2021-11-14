@@ -1,5 +1,5 @@
 import React ,{ useEffect, useRef,useState}from 'react'
-import { receiveSubtitleData } from '../../store/action'
+import { receiveSubtitleData, receiveTranslateSubtitleData } from '../../store/action'
 import './Section.scss'
 import Video from '../VideoTemplate/index'
 import {Grid} from 'semantic-ui-react'
@@ -568,11 +568,13 @@ function Section(props) {
             Notify.warning("부정행위 알림")
             dispatch(receiveGazeData(data))
         })
+        //korean
         io.on('receive_stt_message',data=> {
             dispatch(receiveSubtitleData(data))
         })
+        //번역본 (english)
         io.on('translate_stt_message',data=> {
-            dispatch(receiveSubtitleData(data))
+            dispatch(receiveTranslateSubtitleData(data))
         })
        
        

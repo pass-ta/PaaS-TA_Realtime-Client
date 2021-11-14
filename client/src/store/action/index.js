@@ -4,6 +4,7 @@ export const TOGGLE_VIDEO_AUDIO ="TOGGLE_VIDEO_AUDIO"
 export const FETCH_GET_INFORM = "FETCH_GET_INFORM"
 export const RECEIVE_CHAT_DATA = "RECEIVE_CHAT_DATA"
 export const RECEIVE_SUBTITLE_DATA = "RECEIVE_SUBTITLE_DATA"
+export const RECEIVE_TRANSLATE_SUBTITLE_DATA = "RECEIVE_TRANSLATE_SUBTITLE_DATA"
 export const RECEIVE_GAZE_DATA = "RECEIVE_GAZE_DATA"
 export const EDIT_BODY = "EDIT_BODY"
 
@@ -22,6 +23,12 @@ export const receiveChatData = (data) => {
 export const receiveSubtitleData = (data) => {
     return {
         type:"RECEIVE_SUBTITLE_DATA",
+        data : data
+    }
+}
+export const receiveTranslateSubtitleData = (data) => {
+    return {
+        type:"RECEIVE_TRANSLATE_SUBTITLE_DATA",
         data : data
     }
 }

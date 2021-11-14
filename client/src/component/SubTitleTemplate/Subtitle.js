@@ -3,20 +3,25 @@ import { useSelector } from 'react-redux'
 import './Subtitle.scss'
 function Subtitle(props) {
     const subtitle = useSelector((state)=>(state.receiveSubtitleData))
+    const translateSubtitle = useSelector((state)=> state.receiveTranslateSubtitleData)
     // console.log(JSON.stringify(subtitle))
     console.log(subtitle)
     const [usesubtitle,setSubtitle] = useState({
         nickname:null,
         message:null
     })
+    const [usetranslateSubtitle,setTranslateSubtitle] = useState({
+        nickname:null,
+        message:null
+    })
     const onClickModify =() => {
-        
+
     }
     useEffect(()=> {
-        setSubtitle(
-            subtitle
-        )
-    },[subtitle])
+        setSubtitle(subtitle)
+        setTranslateSubtitle(translateSubtitle)
+
+    },[subtitle,translateSubtitle])
     return (
         <>
             <div className="subtitleContainer" style={{animationName:props.otherSubtitleSetting.group.toString()+"4"||"false4"}}>
