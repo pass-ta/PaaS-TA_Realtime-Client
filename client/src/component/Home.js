@@ -20,7 +20,7 @@ import Pencil from './PencilTemplate/Pencil';
 // 테스트용 서버주소
 //const SERVERPATH = "https://192.168.35.242:4000"
 
-const SERVERPATH = "https://127.0.0.1:4000"
+const SERVERPATH = "https://localhost:4000"
 const io = socket.connect(SERVERPATH);
 
 let start =Date.now()
@@ -185,7 +185,7 @@ function Home() {
     return (
         <>
             <div className="HomeSection" >
-                <Section  setting = {setting} otherPensilsetting={otherPencilSetting.pencil} otherShareSetting={otherShareSetting} io = {io} userdata = {userdata}/> 
+                <Section  setting = {setting} otherPensilsetting={otherPencilSetting.pencil} otherShareSetting={otherShareSetting} otherGroupsetting={otherGroupsetting} io = {io} userdata = {userdata}/> 
                 {/* <Group setting = {otherGroupsetting.group} userdata=  {userdata.roomtype}/> */}
                 <Chat  setting = {otherChatsetting.chat} io = {io} userdata = {userdata}/>      
                 <div className="footer">
