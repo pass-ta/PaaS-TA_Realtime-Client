@@ -1,13 +1,15 @@
 import React ,{ useEffect, useRef,useState}from 'react'
+import { receiveSubtitleData } from '../../store/action'
 import './Section.scss'
 import Video from '../VideoTemplate/index'
-import {Grid, Portal} from 'semantic-ui-react'
+import {Grid} from 'semantic-ui-react'
 import useMedia from '../../useMedia'
 import { useDispatch} from 'react-redux'
 import {receiveGazeData} from '../../store/action'
 import { Notify } from "notiflix";
 import socket from 'socket.io-client'
-import {RTCMultiConnection} from 'rtcmulticonnection'
+import Subtitle from '../SubTitleTemplate/Subtitle'
+
 
 function Section(props) {
     
@@ -16,7 +18,13 @@ function Section(props) {
     localStorage.setItem('width',"500px");
     localStorage.setItem('height',"300px");
     const dispatch = useDispatch()
-    
+
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const recognition = new SpeechRecognition();
+    const language = 'ko-KR';
+    let final_transcript = "";
+    recognition.continuous = true;
+    recognition.interimResults = true;
       
   
  
@@ -44,6 +52,7 @@ function Section(props) {
 
 
     const [users,setUsers] = useState([])
+    const [subtitle,setSubtitle] = useState()
     let pcs = {}
 
     var videolocalref = useRef(null)
@@ -123,47 +132,52 @@ function Section(props) {
                     'share':false
                 })
                 
-                console.log("혜원: 아마 화면공유시작")
-                
-                const FIRST_CHAR = /\S/;
-                const TWO_LINE = /\n\n/g;
-                const ONE_LINE = /\n/g;
-                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-                const recognition = new SpeechRecognition();
-                const language = 'ko-KR';
-
-                let isRecognizing = false;
-                let ignoreEndProcess = false;
-                let finalTranscript = '';
-
-                recognition.continuous = true;
-                recognition.interimResults = true;
+        
+ 
 
 
 
                 // start 
                 recognition.start();
-                console.log("혜원 : START")
+                console.log("STT : START")
 
-                let final_transcript = "";
+                
 
                 // result 
                 recognition.onresult = (event) => {
                     // Create the interim transcript string locally because we don't want it to persist like final transcript
                     
 
-                    // Loop through the results from the speech recognition object.
+                    // // Loop through the results from the speech recognition object.
                     for (let i = event.resultIndex; i < event.results.length; ++i) {
                         // If the result item is Final, add it to Final Transcript, Else add it to Interim transcript
+                        // console.log(event.results[i])
                         if (event.results[i].isFinal) {
-                        final_transcript += event.results[i][0].transcript;
+                            final_transcript = event.results[i][0].transcript;
+                            // console.log(final_transcript)
+                            // io.emit('stt_message',{
+                            //     'nickname':userdata.nickname,
+                            //     'message':final_transcript
+                            // })
+                            io.emit('translate_stt_message',{
+                                'nickname':userdata.nickname,
+                                'message':event.results[i][0].transcript
+                            })
                         } else {
-                        interim_transcript += event.results[i][0].transcript;
+                            interim_transcript += event.results[i][0].transcript;
+                            io.emit('stt_message',{
+                                'nickname':userdata.nickname,
+                                'message':event.results[i][0].transcript
+                            })
+                                
+                         
+                            
                         }
                     }
-                    // 준영 여기 
-                    document.querySelector("#subtitle") = interim_transcript;
-                    console.log("혜원TAG : ",interim_transcript )
+                   // document.querySelector("#subtitle") = interim_transcript;
+                    //console.log("혜원TAG : ",interim_transcript )
+                    //console.log(event.results[event.results.length-1])
+
                 };              
              
                 
@@ -233,8 +247,9 @@ function Section(props) {
             // window.postMessage("message","*")
             captureStream = await navigator.mediaDevices.getDisplayMedia(displayMediaOptions)
             videoElem.srcObject = captureStream
+            recognition.close()
             io.disconnect()
-            const SERVERPATH = "https://192.168.35.242:4000"
+            const SERVERPATH = "https://localhost:4000"
             io = socket.connect(SERVERPATH);
             io.on("connect",()=>{
                 console.log(io.id)
@@ -248,6 +263,45 @@ function Section(props) {
                     'video':props.setting.video,
                     'share':props.otherShareSetting.share
                 })
+           
+ 
+
+
+
+                // start 
+                recognition.start();
+                console.log("STT : START")
+
+
+                // result 
+                recognition.onresult = (event) => {
+                    // Create the interim transcript string locally because we don't want it to persist like final transcript
+                    
+
+                    // // Loop through the results from the speech recognition object.
+                    for (let i = event.resultIndex; i < event.results.length; ++i) {
+                        // If the result item is Final, add it to Final Transcript, Else add it to Interim transcript
+                        // console.log(event.results[i])
+                        if (event.results[i].isFinal) {
+                            final_transcript = event.results[i][0].transcript;
+                            // console.log(final_transcript)
+                            io.emit('stt_message',{
+                                'nickname':userdata.nickname,
+                                'message':final_transcript
+                            })
+                        } else {
+                            interim_transcript += event.results[i][0].transcript;
+             
+                                
+                         
+                            
+                        }
+                    }
+                   // document.querySelector("#subtitle") = interim_transcript;
+                    //console.log("혜원TAG : ",interim_transcript )
+                    //console.log(event.results[event.results.length-1])
+
+                };              
                 io.on('all_users',(allUsers,mydata)=> {
                     len = allUsers.length
                     console.log("allUsers :"+JSON.stringify(allUsers))
@@ -255,7 +309,7 @@ function Section(props) {
                     for(let i=0; i<len; i++){
                         console.log("현재 방의 참가자는 :"+allUsers[i].id)
                         console.log('io의 아이디'+io.id)
-                        console.log("share이 가야 할 방향"+mydata.share)
+                     
                         if(mydata.share){
         
                             createPeerConnection(allUsers[i].id,allUsers[i].email,allUsers[i].nickname,allUsers[i].roomowner ,allUsers[i].audio,allUsers[i].video,io,captureStream,mydata.share)
@@ -367,6 +421,10 @@ function Section(props) {
                     Notify.warning("부정행위 알림")
                     dispatch(receiveGazeData(data))
                 })
+                io.on('receive_stt_message',data=> {
+                    
+                })
+                
             })
             console.log("share보내고 io의 id"+io.id)
             
@@ -398,7 +456,7 @@ function Section(props) {
             for(let i=0; i<len; i++){
                 console.log("현재 방의 참가자는 :"+allUsers[i].id)
                 console.log('io의 아이디'+io.id)
-                console.log("share이 가야 할 방향"+mydata.share)
+     
                 if(mydata.share){
 
                     createPeerConnection(allUsers[i].id,allUsers[i].email,allUsers[i].nickname,allUsers[i].roomowner ,allUsers[i].audio,allUsers[i].video,io,captureStream,mydata.share)
@@ -510,7 +568,12 @@ function Section(props) {
             Notify.warning("부정행위 알림")
             dispatch(receiveGazeData(data))
         })
-        
+        io.on('receive_stt_message',data=> {
+            dispatch(receiveSubtitleData(data))
+        })
+        io.on('translate_stt_message',data=> {
+            dispatch(receiveSubtitleData(data))
+        })
        
        
         
@@ -631,8 +694,9 @@ function Section(props) {
                 </Grid>
                         
                 <video id="sharevideo" autoPlay ref={shareref}></video>
+                <Subtitle otherSubtitleSetting={props.otherGroupsetting}/>
 
-                <a id="subtitles"> {userdata.nickname} {interim_transcript} </a>
+                {/* <a id="subtitles"> {userdata.nickname} {interim_transcript} </a> */}
                    
             </div>
         
