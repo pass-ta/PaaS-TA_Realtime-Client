@@ -19,20 +19,14 @@ function Section(props) {
     localStorage.setItem('height',"300px");
     const dispatch = useDispatch()
 
+    // Init STT
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     const recognition = new SpeechRecognition();
     const language = 'ko-KR';
     let final_transcript = "";
     recognition.continuous = true;
     recognition.interimResults = true;
-      
-  
- 
-    
-  
- 
-    
-    
+    let interim_transcript = "init";
 
 
     var io = props.io
@@ -46,10 +40,6 @@ function Section(props) {
     // }),(prev,next)=> {
     //     return prev.video ===next.video && prev.audio === next.audio
     // })
-
-
- //console.log("Section 비디오 상태:"+video+"\n Section 오디오 상태"+audio)
-
 
     const [users,setUsers] = useState([])
     const [subtitle,setSubtitle] = useState()
@@ -84,12 +74,6 @@ function Section(props) {
         1
     )
     
-
-
-
-
-
-    let interim_transcript = "init";
   
     //footer부분을 home으로 다 옮기고
     //비디오와 오디오를 props로 section으로 보내주기 !
@@ -131,19 +115,12 @@ function Section(props) {
                     'video':props.setting.video,
                     'share':false
                 })
-                
-        
- 
 
-
-
-                // start 
+                // Start STT
                 recognition.start();
                 console.log("STT : START")
 
-                
-
-                // result 
+                // Result about STT
                 recognition.onresult = (event) => {
                     // Create the interim transcript string locally because we don't want it to persist like final transcript
                     
@@ -212,6 +189,8 @@ function Section(props) {
        
 
     },[props.setting])
+    
+    
     //--------------------------화면 공유-------------------
     //화면 공유 props.otherShareSetting 바뀔시 로직
     useEffect(()=> {
