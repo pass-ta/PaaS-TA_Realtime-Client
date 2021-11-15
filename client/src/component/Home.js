@@ -22,7 +22,7 @@ import Pencil from './PencilTemplate/Pencil';
 const SERVERPATH = "https://realtimeserver.paas-ta.org/"
 const io = socket.connect(SERVERPATH);
 
-let start =Date.now()
+
 function Home() {
  
     const dispatch = useDispatch()
@@ -56,14 +56,14 @@ function Home() {
     useEffect(()=> {
         //roomname을 잘못 치고 들어온경우
         if(window.performance.navigation.type ===1) {
-           window.location.assign("https://118.67.131.138:30020/errorpage")
+           window.location.assign("https://pedantic-einstein-75bdbe.netlify.app/errorpage")
         }
         if(userdata.roomname!==id) {
-            window.location.assign("https://118.67.131.138:30020/errorpage")
+            window.location.assign("https://pedantic-einstein-75bdbe.netlify.app/errorpage")
             //userdata가 다르다고  에러페이지로 전송
         }
         if(userdata.nickname==="") {
-            window.location.assign("https://118.67.131.138:30020/errorpage")
+            window.location.assign("https://pedantic-einstein-75bdbe.netlify.app/errorpage")
         }
         
 
@@ -159,9 +159,14 @@ function Home() {
             //나중에 장고 페이지로 고치기
             if(value) {
                 // window.location.assign("https://cranky-bohr-e0f18a.netlify.app/errorpage")
-                let end = Date.now()
+              
                 //django 서버로 연결되어있던 시간을 보내주기 위함.
-                window.location.assign(`https://118.67.131.138:30000/main/roomout/${end-start}/${userdata.roomtype}`)
+                if(userdata.roomowner === userdata.useremail){
+                    window.location.assign(`https://manageserver.paas-ta.org/home/classout/${userdata.roomowner}`)
+                }else {
+
+                    window.location.assign(`https://manageserver.paas-ta.org/home/classout/${userdata.useremail}`)
+                }
             }else {
                 //아무 동작 하지 않는다.
                 return;
