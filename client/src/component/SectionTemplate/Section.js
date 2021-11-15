@@ -167,7 +167,11 @@ function Section(props) {
 
                 });       
                 // infinite STT Start
-                recognition.addEventListener("end", recognition.start);
+                recognition.addEventListener("end", function() {
+                    console.log("end Reconition & Restart")
+                    recognition.start();
+
+                });
                 
                 // Start STT
                 recognition.start();
