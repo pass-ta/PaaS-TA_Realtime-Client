@@ -9,6 +9,7 @@ import {receiveGazeData} from '../../store/action'
 import { Notify } from "notiflix";
 import socket from 'socket.io-client'
 import Subtitle from '../SubTitleTemplate/Subtitle'
+import { suppressDeprecationWarnings } from 'moment'
 
 
 function Section(props) {
@@ -21,7 +22,7 @@ function Section(props) {
 
     // Init STT
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    const recognition = new SpeechRecognition();
+    let recognition = new SpeechRecognition();
     const language = 'ko-KR';
     recognition.continuous = true;
     recognition.interimResults = true;
@@ -29,7 +30,8 @@ function Section(props) {
     // let final_transcript = ""
     const final_transcript = new Array();
     console.log('kr배열 길이 : ',final_transcript.length);
-
+    // let recognition_status = "normal"
+    localStorage.setItem("recognition_status", "normal")
 
     var io = props.io
     const userdata = props.userdata
@@ -99,10 +101,12 @@ function Section(props) {
             }
           
         }else {
+            console.log("Section.js 제대로 통신완료")
             navigator.mediaDevices.getUserMedia(
                 props.setting
              ).then((stream)=> {
                 console.log(stream.getTracks())
+                console.log("Section.js 화상공유 시작")
                 
                 localStream = stream
                 videolocalref.current.srcObject = stream 
@@ -118,64 +122,85 @@ function Section(props) {
                 })
 
                 
-
-                // Result about STT
-                recognition.addEventListener("result", (event) => {
-                    // Create the interim transcript string locally because we don't want it to persist like final transcript
-                    // // Loop through the results from the speech recognition object.
-                    for (let i = event.resultIndex; i < event.results.length; ++i) {
-                        // If the result item is Final, add it to Final Transcript, Else add it to Interim transcript
-                        // interim_transcript += event.results[i][0].transcript;
-
-                        // 첫 자막 시작일때
-                        if (final_transcript.length == 0){
-                            final_transcript.push( event.results[i][0].transcript)
-
-                        // 3줄이 꽉차면 1줄 지우기
-                        }else if(final_transcript.length == 4){
-                            final_transcript.shift();
-                        }else{
-                        // 자막이 계속 갱신
-                            final_transcript[final_transcript.length-1] = event.results[i][0].transcript
-                        }
-
-                        console.log(final_transcript.length)
-                        if (event.results[i].isFinal) {
-                            // 계속 갱신되는 자막에 final로 확정시켜줌
-                            final_transcript[final_transcript.length-1] = event.results[i][0].transcript;
-
-                            // 줄추가 : final로 확정시켰으므로 다음 자막은 밑줄로
-                            final_transcript.push("");
-
-
-                            // 영어자막용 : 온전한 다 문장
-                            io.emit('translate_stt_message',{
+                console.log("STT 설정")
+                if (userdata.useremail == userdata.roomowner){
+                    recognition.onstart = function() {
+                        console.log('STT 시작');
+                      }
+                    // Result about STT
+                    recognition.addEventListener("result", (event) => {
+                        console.log("STT Result 함수")
+                        // Create the interim transcript string locally because we don't want it to persist like final transcript
+                        // // Loop through the results from the speech recognition object.
+                        for (let i = event.resultIndex; i < event.results.length; ++i) {
+                            // If the result item is Final, add it to Final Transcript, Else add it to Interim transcript
+                            // interim_transcript += event.results[i][0].transcript;
+    
+                            // 첫 자막 시작일때
+                            if (final_transcript.length == 0){
+                                final_transcript.push( event.results[i][0].transcript)
+    
+                            // 3줄이 꽉차면 1줄 지우기
+                            }else if(final_transcript.length == 4){
+                                final_transcript.shift();
+                            }else{
+                            // 자막이 계속 갱신
+                                final_transcript[final_transcript.length-1] = event.results[i][0].transcript
+                            }
+    
+                            console.log(final_transcript.length)
+                            if (event.results[i].isFinal) {
+                                // 계속 갱신되는 자막에 final로 확정시켜줌
+                                final_transcript[final_transcript.length-1] = event.results[i][0].transcript;
+    
+                                // 줄추가 : final로 확정시켰으므로 다음 자막은 밑줄로
+                                final_transcript.push("");
+    
+    
+                                // 영어자막용 : 온전한 다 문장
+                                io.emit('translate_stt_message',{
+                                    'nickname':userdata.nickname,
+                                    'message':final_transcript[0],
+                                    'message2':final_transcript[1],
+                                    'message3' :final_transcript[2]
+                                })
+                            }
+                            // 한글 자막
+                            io.emit('stt_message',{
                                 'nickname':userdata.nickname,
                                 'message':final_transcript[0],
                                 'message2':final_transcript[1],
                                 'message3' :final_transcript[2]
                             })
                         }
-                        // 한글 자막
-                        io.emit('stt_message',{
-                            'nickname':userdata.nickname,
-                            'message':final_transcript[0],
-                            'message2':final_transcript[1],
-                            'message3' :final_transcript[2]
-                        })
-                    }
-
-                });       
-                // infinite STT Start
-                recognition.addEventListener("end", function() {
-                    console.log("end Reconition & Restart")
+    
+                    });  
+                    // infinite STT Start
+                    // console.log("STT End 설정완료")     
+                    recognition.addEventListener("end", function() {
+                        
+                        console.log("end Reconition & Restart")
+                        console.log(localStorage.getItem("recognition_status"))
+                        // if ( localStorage.getItem("recognition_status") == "capture"){
+                        //     console.log("화면공유 cature")
+                        //     recognition.stop();
+                        // }else{
+                        //     recognition.start();
+                        // }
+                        // recognition.start();
+    
+                    });
+                    // // EndPoint STT : 단순 말이 끝날때를 알려줌
+                    // recognition.addEventListener('speechend', function() {
+                    //     console.log('Speech has stopped being detected');
+                        
+                    // });
+                    
+                    // Start STT
                     recognition.start();
-
-                });
+                    console.log("STT : START")
+                }
                 
-                // Start STT
-                recognition.start();
-                console.log("STT : START")
                 
              }).catch((err)=> {
                  //console.log(err); /* handle the error */
@@ -240,17 +265,43 @@ function Section(props) {
     //     }
     // })
     async function startCapture(displayMediaOptions) {
+        console.log("화면공유 startCapture 함수 실행")
         const videoElem = document.getElementById("sharevideo")
         try {
             // window.postMessage("message","*")
             captureStream = await navigator.mediaDevices.getDisplayMedia(displayMediaOptions)
             videoElem.srcObject = captureStream
-            recognition.close()
+            // recognition.abort()
+            localStorage.setItem("recognition_status","capture")
+            console.log("확인용",localStorage.getItem("recognition_status"))
+            // 2 //
+            recognition.stop();
+            console.log("화면공유: 기존 STT STOP")
+
+            recognition = new SpeechRecognition();
+
+            console.log("화면공유 recognition 리셋")
+            recognition.continuous = true;
+            recognition.interimResults = true;
+            recognition.lang = language;
+            // recognition = new SpeechRecognition();
+
+            // console.log("recognition 리센")
+            // recognition.continuous = true;
+            // recognition.interimResults = true;
+            // recognition.lang = language;
+
+            ///
+            
+            ///
             io.disconnect()
             const SERVERPATH = "https://realtimeserver.paas-ta.org/"
             io = socket.connect(SERVERPATH);
             io.on("connect",()=>{
-                console.log(io.id)
+                console.log("화면공유 통신 ok",io.id)
+                
+
+                
                 io.emit('join room',{
                     'room':userdata.roomname,
                     'email':userdata.useremail,
@@ -262,9 +313,13 @@ function Section(props) {
                     'share':props.otherShareSetting.share
                 })
            
- 
+                console.log("화면공유 STT 설정")
+                recognition.onstart = function() {
+                    console.log('화면공유 STT 시작');
+                    }
                 // Result about STT
                 recognition.addEventListener("result", (event) => {
+                    console.log("화면공유 STT Result 함수")
                     // Create the interim transcript string locally because we don't want it to persist like final transcript
                     // // Loop through the results from the speech recognition object.
                     for (let i = event.resultIndex; i < event.results.length; ++i) {
@@ -309,13 +364,19 @@ function Section(props) {
                         })
                     }
 
-                });       
+                });  
                 // infinite STT Start
-                recognition.addEventListener("end", recognition.start);
+                recognition.addEventListener("end", function() {
+                    
+                    console.log("화면 공유 END")
+
+                });
                 
                 // Start STT
                 recognition.start();
-                console.log("STT : START")
+                console.log("화면 공유 STT : START")
+                
+                
 
                 io.on('all_users',(allUsers,mydata)=> {
                     len = allUsers.length
