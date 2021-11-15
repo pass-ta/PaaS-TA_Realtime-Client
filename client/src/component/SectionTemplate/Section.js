@@ -705,34 +705,23 @@ function Section(props) {
           console.log('ontrack success and audio'+audio);
           
           setUsers(oldUsers => oldUsers.filter(user => user.id !== socketID));
-          
-          if(email===roomowner) {
-            setUsers(oldUsers => [...oldUsers, {
-                id: socketID,
-                email: email,
-                nickname:nickname,
-                roomowner:roomowner,
-                audio:audio,
-                video:video,
-                stream: e.streams[0],
-                share:false
-              }]);
-          }else {
+         
               
-              setUsers(oldUsers => [...oldUsers, {
-                id: socketID,
-                email: email,
-                nickname:nickname,
-                roomowner:roomowner,
-                audio:audio,
-                video:video,
-                stream: e.streams[0],
-                share:false
-              }]);
-          }
+            setUsers(oldUsers => [...oldUsers, {
+            id: socketID,
+            email: email,
+            nickname:nickname,
+            roomowner:roomowner,
+            audio:audio,
+            video:video,
+            stream: e.streams[0],
+            share:false
+            }]);
+        
          
           console.log(JSON.stringify(users))
-          if(share && props.otherShareSetting.share===false) shareref.current.srcObject = e.streams[0]
+          //&& props.otherShareSetting.share===false
+          if(share===false) shareref.current.srcObject = e.streams[0]
          
         }
         
