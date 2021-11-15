@@ -5,17 +5,20 @@ function Subtitle(props) {
     const subtitle = useSelector((state)=>(state.receiveSubtitleData))
     const translateSubtitle = useSelector((state)=> state.receiveTranslateSubtitleData)
     // console.log(JSON.stringify(subtitle))
-    console.log(subtitle)
-    console.log(translateSubtitle)
+    // console.log(subtitle)
+    // console.log(translateSubtitle)
     const [usesubtitle,setSubtitle] = useState({
         nickname:null,
         message:null,
-        message2:null
+        message2:null,
+        message3:null
     })
     const [useflag,setFlag] = useState(true)
     const [usetranslateSubtitle,setTranslateSubtitle] = useState({
         nickname:null,
-        message:null
+        message:null,
+        message2:null,
+        message3:null
     })
     const onClickModify =() => {
         setFlag(!useflag)
@@ -30,18 +33,26 @@ function Subtitle(props) {
         <>
             <div className="subtitleContainer" style={{animationName:props.otherSubtitleSetting.group.toString()+"4"||"false4"}}>
                     {useflag?(
-                            <p id="my_p" className="preview_p"  > 
-                        
-                                {usesubtitle.nickname} :{usesubtitle.message} 
-                                {/* 이쪽에 알아서 message2 쓰면 될 것 */}
+                            <p id="my_p" className="preview_p"> 
+                                {usesubtitle.nickname}&nbsp;&nbsp;:&nbsp;&nbsp;{usesubtitle.message} &nbsp; 
+                                <br></br>
+                                &emsp;&emsp;&emsp;&emsp; {usesubtitle.message2}
+                                <br></br>
+                                &emsp;&emsp;&emsp;&emsp; {usesubtitle.message3}
+                                <br></br>
                             </p>
+                            
                         )
                     
                         :
                         (
                             <p id="my_p" className="preview_p"  > 
-                        
-                                {usetranslateSubtitle.nickname} :{usetranslateSubtitle.message} 
+                                {usetranslateSubtitle.nickname}&nbsp;&nbsp;:&nbsp;&nbsp;{usetranslateSubtitle.message} &nbsp; 
+                                <br></br>
+                                &emsp;&emsp;&emsp;&emsp; {usetranslateSubtitle.message2}
+                                <br></br>
+                                &emsp;&emsp;&emsp;&emsp; {usetranslateSubtitle.message3}
+                                <br></br>
                             </p>
                         )
                     }

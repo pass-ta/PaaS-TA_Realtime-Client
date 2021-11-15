@@ -1,16 +1,17 @@
 @import '../../style/_main';
 .subtitleContainer {
-    width:25%;
+    width:50%;
     display: flex;
     justify-content: space-between;
     color: white;
-    background-color: #3c4043;
+    background-color: rgba(60,64,67,0.2);
     border-radius: 2%;
     padding: 1%;
     opacity: 0;
     position: relative;
     bottom: 10%;
     align-items: center;
+    margin-right: 2px;
     @include animation;
     .preview_p{
         

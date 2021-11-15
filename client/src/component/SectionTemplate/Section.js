@@ -23,10 +23,12 @@ function Section(props) {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     const recognition = new SpeechRecognition();
     const language = 'ko-KR';
-    let final_transcript = "";
     recognition.continuous = true;
     recognition.interimResults = true;
-    let interim_transcript = "init";
+    recognition.lang = language;
+    // let final_transcript = ""
+    const final_transcript = new Array();
+    console.log('kr배열 길이 : ',final_transcript.length);
 
 
     var io = props.io
@@ -104,7 +106,6 @@ function Section(props) {
                 
                 localStream = stream
                 videolocalref.current.srcObject = stream 
-                
                 io.emit('join room',{
                     'room':userdata.roomname,
                     'email':userdata.useremail,
@@ -124,39 +125,51 @@ function Section(props) {
                 recognition.onresult = (event) => {
                     // Create the interim transcript string locally because we don't want it to persist like final transcript
                     
-
                     // // Loop through the results from the speech recognition object.
                     for (let i = event.resultIndex; i < event.results.length; ++i) {
                         // If the result item is Final, add it to Final Transcript, Else add it to Interim transcript
-                        // console.log(event.results[i])
+                        // interim_transcript += event.results[i][0].transcript;
+
+                        // 첫 자막 시작일때
+                        if (final_transcript.length == 0){
+                            final_transcript.push( event.results[i][0].transcript)
+
+                        // 3줄이 꽉차면 1줄 지우기
+                        }else if(final_transcript.length == 4){
+                            final_transcript.shift();
+                        }else{
+                        // 자막이 계속 갱신
+                            final_transcript[final_transcript.length-1] = event.results[i][0].transcript
+                        }
+
+                        console.log(final_transcript.length)
                         if (event.results[i].isFinal) {
-                            final_transcript = event.results[i][0].transcript;
-                            // console.log(final_transcript)
-                            // io.emit('stt_message',{
-                            //     'nickname':userdata.nickname,
-                            //     'message':final_transcript
-                            // })
+                            // 계속 갱신되는 자막에 final로 확정시켜줌
+                            final_transcript[final_transcript.length-1] = event.results[i][0].transcript;
+
+                            // 줄추가 : final로 확정시켰으므로 다음 자막은 밑줄로
+                            final_transcript.push("");
+
+
+                            // 영어자막용 : 온전한 다 문장
                             io.emit('translate_stt_message',{
                                 'nickname':userdata.nickname,
-                                'message':event.results[i][0].transcript
+                                'message':final_transcript[0],
+                                'message2':final_transcript[1],
+                                'message3' :final_transcript[2]
                             })
-                        } else {
-                            interim_transcript += event.results[i][0].transcript;
-                            io.emit('stt_message',{
-                                'nickname':userdata.nickname,
-                                'message':event.results[i][0].transcript,
-                                'message2':"~~~ 이름을 message2로 할것"
-                            })
-                                
-                         
-                            
                         }
+                        // 한글 자막
+                        io.emit('stt_message',{
+                            'nickname':userdata.nickname,
+                            'message':final_transcript[0],
+                            'message2':final_transcript[1],
+                            'message3' :final_transcript[2]
+                        })
                     }
-                   // document.querySelector("#subtitle") = interim_transcript;
-                    //console.log("혜원TAG : ",interim_transcript )
-                    //console.log(event.results[event.results.length-1])
 
-                };              
+                };       
+                
              
                 
              }).catch((err)=> {
@@ -248,47 +261,58 @@ function Section(props) {
 
 
 
-                // start 
+                // Start STT
                 recognition.start();
                 console.log("STT : START")
 
-
-                // result 
+                // Result about STT
                 recognition.onresult = (event) => {
                     // Create the interim transcript string locally because we don't want it to persist like final transcript
                     
-
                     // // Loop through the results from the speech recognition object.
                     for (let i = event.resultIndex; i < event.results.length; ++i) {
                         // If the result item is Final, add it to Final Transcript, Else add it to Interim transcript
-                        // console.log(event.results[i])
+                        // interim_transcript += event.results[i][0].transcript;
+
+                        // 첫 자막 시작일때
+                        if (final_transcript.length == 0){
+                            final_transcript.push( event.results[i][0].transcript)
+
+                        // 3줄이 꽉차면 1줄 지우기
+                        }else if(final_transcript.length == 4){
+                            final_transcript.shift();
+                        }else{
+                        // 자막이 계속 갱신
+                            final_transcript[final_transcript.length-1] = event.results[i][0].transcript
+                        }
+
+                        console.log(final_transcript.length)
                         if (event.results[i].isFinal) {
-                            final_transcript = event.results[i][0].transcript;
-                            // console.log(final_transcript)
-                            // io.emit('stt_message',{
-                            //     'nickname':userdata.nickname,
-                            //     'message':final_transcript
-                            // })
+                            // 계속 갱신되는 자막에 final로 확정시켜줌
+                            final_transcript[final_transcript.length-1] = event.results[i][0].transcript;
+
+                            // 줄추가 : final로 확정시켰으므로 다음 자막은 밑줄로
+                            final_transcript.push("");
+
+                            // 영어자막용 : 온전한 다 문장
                             io.emit('translate_stt_message',{
                                 'nickname':userdata.nickname,
-                                'message':event.results[i][0].transcript
+                                'message':final_transcript[0],
+                                'message2':final_transcript[1],
+                                'message3' :final_transcript[2]
                             })
-                        } else {
-                            interim_transcript += event.results[i][0].transcript;
-                            io.emit('stt_message',{
-                                'nickname':userdata.nickname,
-                                'message':event.results[i][0].transcript
-                            })
-                                
-                         
-                            
                         }
+                        // 한글 자막
+                        io.emit('stt_message',{
+                            'nickname':userdata.nickname,
+                            'message':final_transcript[0],
+                            'message2':final_transcript[1],
+                            'message3' :final_transcript[2]
+                        })
                     }
-                   // document.querySelector("#subtitle") = interim_transcript;
-                    //console.log("혜원TAG : ",interim_transcript )
-                    //console.log(event.results[event.results.length-1])
 
-                };              
+                };   
+
                 io.on('all_users',(allUsers,mydata)=> {
                     len = allUsers.length
                     console.log("allUsers :"+JSON.stringify(allUsers))
