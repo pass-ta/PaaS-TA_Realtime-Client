@@ -378,62 +378,62 @@ function Section(props) {
                 
                 
 
-                // io.on('all_users',(allUsers,mydata)=> {
-                //     len = allUsers.length
-                //     console.log("allUsers :"+JSON.stringify(allUsers))
+                io.on('all_users',(allUsers,mydata)=> {
+                    len = allUsers.length
+                    console.log("allUsers :"+JSON.stringify(allUsers))
                     
-                //     for(let i=0; i<len; i++){
-                //         console.log("현재 방의 참가자는 :"+allUsers[i].id)
-                //         console.log('io의 아이디'+io.id)
+                    for(let i=0; i<len; i++){
+                        console.log("현재 방의 참가자는 :"+allUsers[i].id)
+                        console.log('io의 아이디'+io.id)
                      
-                //         if(mydata.share){
+                        if(mydata.share){
         
-                //             createPeerConnection(allUsers[i].id,allUsers[i].email,allUsers[i].nickname,allUsers[i].roomowner ,allUsers[i].audio,allUsers[i].video,io,captureStream,mydata.share)
-                //         }else {
-                //             createPeerConnection(allUsers[i].id,allUsers[i].email,allUsers[i].nickname,allUsers[i].roomowner ,allUsers[i].audio,allUsers[i].video,io,localStream,mydata.share)
+                            createPeerConnection(allUsers[i].id,allUsers[i].email,allUsers[i].nickname,allUsers[i].roomowner ,allUsers[i].audio,allUsers[i].video,io,captureStream,mydata.share)
+                        }else {
+                            //createPeerConnection(allUsers[i].id,allUsers[i].email,allUsers[i].nickname,allUsers[i].roomowner ,allUsers[i].audio,allUsers[i].video,io,localStream,mydata.share)
         
-                //         }
+                        }
                             
                         
-                //         let pc = pcs[allUsers[i].id]
+                        let pc = pcs[allUsers[i].id]
                         
-                //         if(pc){
-                //             //
-                //             //                     iceRestart 선택 과목
-                //             // 활성 연결에서 ICE를 다시 시작하려면 이것을 로 설정하십시오 
-                //             //true. 이렇게 하면 반환된 제안이 이미 있는 것과 다른 자격 증명을 갖게 됩니다.
-                //             //그런 다음 반환된 제안을 적용하면 ICE가 다시 시작됩니다. false동일한 자격 
-                //             //증명을 유지하고 ICE를 다시 시작하지 않도록 지정 합니다. 
-                //             //기본값은 false 입니다.
-                //             //re rendering 되더라도 자격증명이 똑같으면 offer이 새로 되지 않는다
-                //             pc.createOffer({
-                //                 iceRestart : true,
-                //                 offerToReceiveAudio:true,
-                //                 offerToReceiveVideo:true
-                //             })
-                //             .then(sdp=> {
-                //                 console.log(sdp)
-                //                 console.log('원격 연결 신청(나 자신):create offer success')
-                //                 pc.setLocalDescription(new RTCSessionDescription(sdp))
-                //                 io.emit('offer',{
-                //                     sdp:sdp,
-                //                     offerSendId:io.id,
-                //                     offerSendEmail:userdata.useremail,
-                //                     offerSendNickname:userdata.nickname,
-                //                     offerroomowner:userdata.roomowner,
-                //                     offerReciveID:allUsers[i].id,
-                //                     audio:mydata.audio,
-                //                     video:mydata.video,
-                //                     share:mydata.share
+                        if(pc){
+                            //
+                            //                     iceRestart 선택 과목
+                            // 활성 연결에서 ICE를 다시 시작하려면 이것을 로 설정하십시오 
+                            //true. 이렇게 하면 반환된 제안이 이미 있는 것과 다른 자격 증명을 갖게 됩니다.
+                            //그런 다음 반환된 제안을 적용하면 ICE가 다시 시작됩니다. false동일한 자격 
+                            //증명을 유지하고 ICE를 다시 시작하지 않도록 지정 합니다. 
+                            //기본값은 false 입니다.
+                            //re rendering 되더라도 자격증명이 똑같으면 offer이 새로 되지 않는다
+                            // pc.createOffer({
+                            //     iceRestart : true,
+                            //     offerToReceiveAudio:true,
+                            //     offerToReceiveVideo:true
+                            // })
+                            // .then(sdp=> {
+                            //     console.log(sdp)
+                            //     console.log('원격 연결 신청(나 자신):create offer success')
+                            //     pc.setLocalDescription(new RTCSessionDescription(sdp))
+                            //     io.emit('offer',{
+                            //         sdp:sdp,
+                            //         offerSendId:io.id,
+                            //         offerSendEmail:userdata.useremail,
+                            //         offerSendNickname:userdata.nickname,
+                            //         offerroomowner:userdata.roomowner,
+                            //         offerReciveID:allUsers[i].id,
+                            //         audio:mydata.audio,
+                            //         video:mydata.video,
+                            //         share:mydata.share
                                 
-                //                 })
+                            //     })
                                 
-                //             }).catch(error=> {
-                //                 console.log(error)
-                //             })
-                //         }
-                //     }
-                // })
+                            // }).catch(error=> {
+                            //     console.log(error)
+                            // })
+                        }
+                    }
+                })
                 // io.on('getOffer',(data)=> {
                 //     console.log('get offer')
                 //     //createPeerConnection(data.offerSendId,data.offerSendEmail,data.offerSendnickname,data.offerroomowner,data.audio,data.video,io,localStream,data.share)
@@ -497,7 +497,7 @@ function Section(props) {
                 //     Notify.warning("부정행위 알림")
                 //     dispatch(receiveGazeData(data))
                 // })     
-                // //korean
+                //korean
                 io.on('receive_stt_message',data=> {
                     dispatch(receiveSubtitleData(data))
                 })
