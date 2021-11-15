@@ -1,6 +1,10 @@
 # PaaS-TA_Realtime_Client
 
-혜원 - STT 확인용 test (Section을 바꿈)
+#### 실행 방법
+
+cd client
+
+npm start
 
 #### * 주의
 
