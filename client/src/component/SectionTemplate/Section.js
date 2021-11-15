@@ -436,7 +436,7 @@ function Section(props) {
                 })
                 io.on('getOffer',(data)=> {
                     console.log('get offer')
-                    createPeerConnection(data.offerSendId,data.offerSendEmail,data.offerSendnickname,data.offerroomowner,data.audio,data.video,io,localStream,data.share)
+                    //createPeerConnection(data.offerSendId,data.offerSendEmail,data.offerSendnickname,data.offerroomowner,data.audio,data.video,io,localStream,data.share)
                     console.log("22222222222"+data.audio+data.video)
                     let pc = pcs[data.offerSendId]
                     if(pc) {
@@ -706,16 +706,31 @@ function Section(props) {
           
           setUsers(oldUsers => oldUsers.filter(user => user.id !== socketID));
           
-          setUsers(oldUsers => [...oldUsers, {
-            id: socketID,
-            email: email,
-            nickname:nickname,
-            roomowner:roomowner,
-            audio:audio,
-            video:video,
-            stream: e.streams[0],
-            share:false
-          }]);
+          if(email===roomowner) {
+            setUsers(oldUsers => [...oldUsers, {
+                id: socketID,
+                email: email,
+                nickname:nickname,
+                roomowner:roomowner,
+                audio:audio,
+                video:video,
+                stream: e.streams[0],
+                share:false
+              }]);
+          }else {
+              
+              setUsers(oldUsers => [...oldUsers, {
+                id: socketID,
+                email: email,
+                nickname:nickname,
+                roomowner:roomowner,
+                audio:audio,
+                video:video,
+                stream: e.streams[0],
+                share:false
+              }]);
+          }
+         
           console.log(JSON.stringify(users))
           if(share && props.otherShareSetting.share===false) shareref.current.srcObject = e.streams[0]
          
@@ -760,6 +775,7 @@ function Section(props) {
                         </video>
                         {users.map((user,index)=> {
                             return (
+                                
                                 <Video
                                     key={index}
                                     email={user.email}
