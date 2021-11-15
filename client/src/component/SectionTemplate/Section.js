@@ -745,7 +745,7 @@ function Section(props) {
 
    
     
-    if(email===roomowner) {
+    if(userdata.email===userdata.roomowner) {
         setUsers(oldUsers=> oldUsers.filter(x=>x.email !==x.roomowner))
     }
     return (
