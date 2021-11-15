@@ -23,6 +23,8 @@ function Section(props) {
     const recognition = new SpeechRecognition();
     const language = 'ko-KR';
     let final_transcript = "";
+    let interim_transcript = "";
+    let kr_transcript ="";
     recognition.continuous = true;
     recognition.interimResults = true;
       
@@ -89,7 +91,6 @@ function Section(props) {
 
 
 
-    let interim_transcript = "init";
   
     //footer부분을 home으로 다 옮기고
     //비디오와 오디오를 props로 section으로 보내주기 !
@@ -152,27 +153,33 @@ function Section(props) {
                     for (let i = event.resultIndex; i < event.results.length; ++i) {
                         // If the result item is Final, add it to Final Transcript, Else add it to Interim transcript
                         // console.log(event.results[i])
+                        interim_transcript += event.results[i][0].transcript;
+                        
                         if (event.results[i].isFinal) {
+                            interim_transcript = event.results[i][0].transcript;
+
+                            // 영어자막용 : 온전한 다 문장
                             final_transcript = event.results[i][0].transcript;
                             // console.log(final_transcript)
                             // io.emit('stt_message',{
                             //     'nickname':userdata.nickname,
                             //     'message':final_transcript
                             // })
+                            console.log("영어 final : ",final_transcript)
+                            console.log("영어 event : ",event.results[i][0].transcript)
                             io.emit('translate_stt_message',{
                                 'nickname':userdata.nickname,
-                                'message':event.results[i][0].transcript
+                                'message':final_transcript
                             })
-                        } else {
-                            interim_transcript += event.results[i][0].transcript;
-                            io.emit('stt_message',{
-                                'nickname':userdata.nickname,
-                                'message':event.results[i][0].transcript
-                            })
-                                
-                         
-                            
                         }
+                        // 한글자막
+                        console.log("interim   : ",interim_transcript)
+                        console.log("message : ",event.results[i][0].transcript)
+                        io.emit('stt_message',{
+                            'nickname':userdata.nickname,
+                            'message':event.results[i][0].transcript
+                        })
+
                     }
                    // document.querySelector("#subtitle") = interim_transcript;
                     //console.log("혜원TAG : ",interim_transcript )
@@ -282,6 +289,7 @@ function Section(props) {
                     for (let i = event.resultIndex; i < event.results.length; ++i) {
                         // If the result item is Final, add it to Final Transcript, Else add it to Interim transcript
                         // console.log(event.results[i])
+
                         if (event.results[i].isFinal) {
                             final_transcript = event.results[i][0].transcript;
                             // console.log(final_transcript)
