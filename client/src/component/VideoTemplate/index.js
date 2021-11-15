@@ -38,10 +38,10 @@ function Video({email, nickname,stream, roomowner,audio,video,share}) {
             ref.current.srcObject = stream;
         }
         console.log(share)
-        if(share) {
-            document.getElementById('aa').style.width="80%"
-            document.getElementById('aa').style.height="20%"
-        }
+        // if(share) {
+        //     document.getElementById('aa').style.width="80%"
+        //     document.getElementById('aa').style.height="20%"
+        // }
     },[])
     
     return (

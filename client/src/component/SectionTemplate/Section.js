@@ -538,13 +538,13 @@ function Section(props) {
                 console.log("현재 방의 참가자는 :"+allUsers[i].id)
                 console.log('io의 아이디'+io.id)
      
-                // if(mydata.share){
+                if(mydata.share){
 
-                //     createPeerConnection(allUsers[i].id,allUsers[i].email,allUsers[i].nickname,allUsers[i].roomowner ,allUsers[i].audio,allUsers[i].video,io,captureStream,mydata.share)
-                
+                    createPeerConnection(allUsers[i].id,allUsers[i].email,allUsers[i].nickname,allUsers[i].roomowner ,allUsers[i].audio,allUsers[i].video,io,captureStream,mydata.share)
+                }else {
                     createPeerConnection(allUsers[i].id,allUsers[i].email,allUsers[i].nickname,allUsers[i].roomowner ,allUsers[i].audio,allUsers[i].video,io,localStream,mydata.share)
 
-                
+                }
                     
                 
                 let pc = pcs[allUsers[i].id]
@@ -708,16 +708,18 @@ function Section(props) {
          
               
             setUsers(oldUsers => [...oldUsers, {
-            id: socketID,
-            email: email,
-            nickname:nickname,
-            roomowner:roomowner,
-            audio:audio,
-            video:video,
-            stream: e.streams[0],
-            share:share
+                id: socketID,
+                email: email,
+                nickname:nickname,
+                roomowner:roomowner,
+                audio:audio,
+                video:video,
+                stream: e.streams[0],
+                share:share
             }]);
-        
+            if(email===roomowner) {
+                setUsers(oldUsers=> oldUsers.filter(x=>x.email !==x.roomowner))
+            }
          
           console.log(JSON.stringify(users))
           //&& props.otherShareSetting.share===false
