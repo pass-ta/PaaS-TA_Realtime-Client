@@ -434,62 +434,62 @@ function Section(props) {
                         }
                     }
                 })
-                // io.on('getOffer',(data)=> {
-                //     console.log('get offer')
-                //     //createPeerConnection(data.offerSendId,data.offerSendEmail,data.offerSendnickname,data.offerroomowner,data.audio,data.video,io,localStream,data.share)
-                //     console.log("22222222222"+data.audio+data.video)
-                //     let pc = pcs[data.offerSendId]
-                //     if(pc) {
-                //         pc.setRemoteDescription(new RTCSessionDescription(data.sdp)).then(()=> {
-                //             console.log('원격 연결 완료(연결 받기) answer set remote description success')
+                io.on('getOffer',(data)=> {
+                    console.log('get offer')
+                    //createPeerConnection(data.offerSendId,data.offerSendEmail,data.offerSendnickname,data.offerroomowner,data.audio,data.video,io,localStream,data.share)
+                    console.log("22222222222"+data.audio+data.video)
+                    let pc = pcs[data.offerSendId]
+                    if(pc) {
+                        pc.setRemoteDescription(new RTCSessionDescription(data.sdp)).then(()=> {
+                            console.log('원격 연결 완료(연결 받기) answer set remote description success')
                             
-                //             pc.createAnswer({
-                //                 offerToReceiveVideo:true,
-                //                 offerToReceiveAudio:true})
-                //             .then(sdp=> {
-                //                 console.log('create answer success')
-                //                 pc.setLocalDescription(new RTCSessionDescription(sdp))
-                //                 io.emit('answer',{
-                //                     sdp:sdp,
-                //                     answerSendID:io.id,
-                //                     answerREceiveID:data.offerSendId
+                            pc.createAnswer({
+                                offerToReceiveVideo:true,
+                                offerToReceiveAudio:true})
+                            .then(sdp=> {
+                                console.log('create answer success')
+                                pc.setLocalDescription(new RTCSessionDescription(sdp))
+                                io.emit('answer',{
+                                    sdp:sdp,
+                                    answerSendID:io.id,
+                                    answerREceiveID:data.offerSendId
         
-                //                 })
-                //             }).catch(error=> {
-                //                 console.log(error)
-                //             })
-                //         })
-                //     }
-                // })
-                // io.on('getAnswer',(data)=> {
-                //     console.log('get answer')
-                //     let pc = pcs[data.answerSendID]
-                //     if(pc) {
-                //         pc.setRemoteDescription(new RTCSessionDescription(data.sdp))
-                //     }
-                // })
-                // io.on('getCandidate',(data)=> {
+                                })
+                            }).catch(error=> {
+                                console.log(error)
+                            })
+                        })
+                    }
+                })
+                io.on('getAnswer',(data)=> {
+                    console.log('get answer')
+                    let pc = pcs[data.answerSendID]
+                    if(pc) {
+                        pc.setRemoteDescription(new RTCSessionDescription(data.sdp))
+                    }
+                })
+                io.on('getCandidate',(data)=> {
                     
-                //     let pc=  pcs[data.candidateSendID]
-                //     if(pc) {
-                //         pc.addIceCandidate(new RTCIceCandidate(data.candidate)).then(()=> {
-                //             //
-                //         })
-                //     }
-                // })
+                    let pc=  pcs[data.candidateSendID]
+                    if(pc) {
+                        pc.addIceCandidate(new RTCIceCandidate(data.candidate)).then(()=> {
+                            //
+                        })
+                    }
+                })
         
-                // io.on('user_exit',data=> {
+                io.on('user_exit',data=> {
         
-                //     pcs[data.id].close()
-                //     delete pcs[data.id]
-                //     setUsers(oldUsers=>oldUsers.filter(user=> user.id!==data.id))
+                    pcs[data.id].close()
+                    delete pcs[data.id]
+                    setUsers(oldUsers=>oldUsers.filter(user=> user.id!==data.id))
         
                    
         
-                //     Notify.failure(`${data.nickname}님이 나갔습니다.`);
+                    Notify.failure(`${data.nickname}님이 나갔습니다.`);
                     
                    
-                // })
+                })
                 // //만약 지금 사용자가 방장이면
                 // //receiveGazeAlert를 받았다면,
                 // io.on('receiveGazeAlert',(data)=> {
@@ -538,13 +538,13 @@ function Section(props) {
                 console.log("현재 방의 참가자는 :"+allUsers[i].id)
                 console.log('io의 아이디'+io.id)
      
-                if(mydata.share){
+                // if(mydata.share){
 
-                    createPeerConnection(allUsers[i].id,allUsers[i].email,allUsers[i].nickname,allUsers[i].roomowner ,allUsers[i].audio,allUsers[i].video,io,captureStream,mydata.share)
-                }else {
+                //     createPeerConnection(allUsers[i].id,allUsers[i].email,allUsers[i].nickname,allUsers[i].roomowner ,allUsers[i].audio,allUsers[i].video,io,captureStream,mydata.share)
+                
                     createPeerConnection(allUsers[i].id,allUsers[i].email,allUsers[i].nickname,allUsers[i].roomowner ,allUsers[i].audio,allUsers[i].video,io,localStream,mydata.share)
 
-                }
+                
                     
                 
                 let pc = pcs[allUsers[i].id]
