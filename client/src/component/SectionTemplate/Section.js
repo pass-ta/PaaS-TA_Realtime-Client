@@ -378,17 +378,17 @@ function Section(props) {
                 
                 
 
-                io.on('all_users',(allUsers,mydata)=> {
-                    len = allUsers.length
-                    console.log("allUsers :"+JSON.stringify(allUsers))
+                // io.on('all_users',(allUsers,mydata)=> {
+                //     len = allUsers.length
+                //     console.log("allUsers :"+JSON.stringify(allUsers))
                     
-                    for(let i=0; i<len; i++){
-                        console.log("현재 방의 참가자는 :"+allUsers[i].id)
-                        console.log('io의 아이디'+io.id)
+                //     for(let i=0; i<len; i++){
+                //         console.log("현재 방의 참가자는 :"+allUsers[i].id)
+                //         console.log('io의 아이디'+io.id)
                      
-                        if(mydata.share){
+                //         if(mydata.share){
         
-                            createPeerConnection(allUsers[i].id,allUsers[i].email,allUsers[i].nickname,allUsers[i].roomowner ,allUsers[i].audio,allUsers[i].video,io,captureStream,mydata.share)
+                //             createPeerConnection(allUsers[i].id,allUsers[i].email,allUsers[i].nickname,allUsers[i].roomowner ,allUsers[i].audio,allUsers[i].video,io,captureStream,mydata.share)
                 //         }else {
                 //             createPeerConnection(allUsers[i].id,allUsers[i].email,allUsers[i].nickname,allUsers[i].roomowner ,allUsers[i].audio,allUsers[i].video,io,localStream,mydata.share)
         
