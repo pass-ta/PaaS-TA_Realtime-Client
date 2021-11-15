@@ -703,11 +703,8 @@ function Section(props) {
     
         pc.ontrack = (e) => {
           console.log('ontrack success and audio'+audio);
-          if(share){
-
-          }else {
+         
             setUsers(oldUsers => oldUsers.filter(user => user.id !== socketID));
-          }
           //setUsers(oldUsers => oldUsers.filter(user => user.id !== socketID));
          
               
