@@ -2,6 +2,7 @@ import {RECEIVE_SUBTITLE_DATA } from "../action"
 const initialState = {
     nickname:null,
     message:null,
+    message2:null
 }
 
 function receiveSubtitleData(state= initialState,action) {

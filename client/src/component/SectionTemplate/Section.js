@@ -167,7 +167,8 @@ function Section(props) {
                             interim_transcript += event.results[i][0].transcript;
                             io.emit('stt_message',{
                                 'nickname':userdata.nickname,
-                                'message':event.results[i][0].transcript
+                                'message':event.results[i][0].transcript,
+                                'message2':"~~~ 이름을 message2로 할것"
                             })
                                 
                          
@@ -199,7 +200,7 @@ function Section(props) {
                     } else if (err.name === "TypeError" || err.name === "TypeError") {
                         //alert대신 custom alert 하는게 나을 것 같다. lotti 라던가
                         alert('비디오와 마이크가 꺼져있습니다')
-                        console.log("aa"+localStream)
+        
                         
                     
             
@@ -285,6 +286,10 @@ function Section(props) {
                         if (event.results[i].isFinal) {
                             final_transcript = event.results[i][0].transcript;
                             // console.log(final_transcript)
+                            // io.emit('stt_message',{
+                            //     'nickname':userdata.nickname,
+                            //     'message':final_transcript
+                            // })
                             io.emit('translate_stt_message',{
                                 'nickname':userdata.nickname,
                                 'message':event.results[i][0].transcript
@@ -423,13 +428,13 @@ function Section(props) {
                     console.log(`receive: ${data.nickname} == ${data.email}이가 부정행위를 ${data.gazeOption.gaze}번 한다!!!`)
                     Notify.warning("부정행위 알림")
                     dispatch(receiveGazeData(data))
-                })
-                  //korean
+                })     
+                //korean
                 io.on('receive_stt_message',data=> {
                     dispatch(receiveSubtitleData(data))
                 })
                 //번역본 (english)
-                io.on('translate_stt_message',data=> {
+                io.on('receive_translate_stt_message',data=> {
                     dispatch(receiveTranslateSubtitleData(data))
                 })
                 
@@ -581,7 +586,7 @@ function Section(props) {
             dispatch(receiveSubtitleData(data))
         })
         //번역본 (english)
-        io.on('translate_stt_message',data=> {
+        io.on('receive_translate_stt_message',data=> {
             dispatch(receiveTranslateSubtitleData(data))
         })
        
