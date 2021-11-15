@@ -294,7 +294,7 @@ function Section(props) {
             ///
             
             ///
-            io.disconnect()
+            // io.disconnect()
             const SERVERPATH = "https://realtimeserver.paas-ta.org/"
             io = socket.connect(SERVERPATH);
             io.on("connect",()=>{
