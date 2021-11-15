@@ -4,8 +4,7 @@ import Lottie from 'react-lottie'
 import lottieanim from '../../lottie/LottieLoading.json'
 import { fetchGetInform } from '../../store/action'
 import { useDispatch } from 'react-redux'
-import {Link,Redirect, useParams} from 'react-router-dom'
-import swal from 'sweetalert'
+import {Link, useParams} from 'react-router-dom'
 function Render() {
     //로티 옵션
     const lottieOptions = {

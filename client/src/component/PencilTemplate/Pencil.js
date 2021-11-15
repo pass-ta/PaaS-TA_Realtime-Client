@@ -9,7 +9,6 @@ function Pencil(props) {
     useEffect(()=> {
         return CodeEditorPreview.bind(mydata||"")
     },[])
-    const {roomname,useremail,nickname,roomtype,userimage} = props.userdata
     const mydata = useSelector(state => state.writepencil)
 
  

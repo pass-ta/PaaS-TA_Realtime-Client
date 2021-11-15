@@ -5,15 +5,13 @@ import './Home.scss'
 import {AiOutlineAudioMuted, AiOutlineAudio,AiOutlineVideoCamera} from "react-icons/ai";
 import {BiVideoOff} from 'react-icons/bi'
 import {ImExit} from 'react-icons/im'
-import { BsChatSquareDots ,BsPersonCheck,BsPencil,BsArrowUpSquare} from "react-icons/bs";
+import { BsChatSquareDots ,BsPencil,BsArrowUpSquare} from "react-icons/bs";
 import { useDispatch, useSelector } from 'react-redux';
 import {MdOutlineSubtitles} from 'react-icons/md'
 import {toggleVideoAudio} from '../store/action/index'
 import Chat from './ChatTemplate/Chat';
 import { useParams } from 'react-router-dom'
 import swal from 'sweetalert'
-
-import Group from './GroupTemplate/Group';
 import Pencil from './PencilTemplate/Pencil';
 //배포용 서버 주소
 //const SERVERPATH = "https://realtimeserver.paas-ta.org/"

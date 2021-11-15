@@ -1,7 +1,6 @@
-import React,{useEffect,useState,useRef} from 'react'
+import React,{useRef} from 'react'
 import { useSelector } from 'react-redux'
 import moment from 'moment'
-var testdata = []
 function RenderChat() {
   
     

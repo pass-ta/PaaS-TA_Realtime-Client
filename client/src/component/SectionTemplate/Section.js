@@ -9,7 +9,6 @@ import {receiveGazeData} from '../../store/action'
 import { Notify } from "notiflix";
 import socket from 'socket.io-client'
 import Subtitle from '../SubTitleTemplate/Subtitle'
-import { suppressDeprecationWarnings } from 'moment'
 
 
 function Section(props) {
@@ -46,11 +45,9 @@ function Section(props) {
     // })
 
     const [users,setUsers] = useState([])
-    const [subtitle,setSubtitle] = useState()
     let pcs = {}
 
     var videolocalref = useRef(null)
-    var videoremoteref = useRef(null)
     let localStream;
     let len;
     let shareref = useRef(null)
@@ -123,7 +120,7 @@ function Section(props) {
 
                 
                 console.log("STT 설정")
-                if (userdata.useremail == userdata.roomowner){
+                if (userdata.useremail === userdata.roomowner){
                     recognition.onstart = function() {
                         console.log('STT 시작');
                       }
@@ -137,11 +134,11 @@ function Section(props) {
                             // interim_transcript += event.results[i][0].transcript;
     
                             // 첫 자막 시작일때
-                            if (final_transcript.length == 0){
+                            if (final_transcript.length === 0){
                                 final_transcript.push( event.results[i][0].transcript)
     
                             // 3줄이 꽉차면 1줄 지우기
-                            }else if(final_transcript.length == 4){
+                            }else if(final_transcript.length === 4){
                                 final_transcript.shift();
                             }else{
                             // 자막이 계속 갱신
@@ -327,11 +324,11 @@ function Section(props) {
                         // interim_transcript += event.results[i][0].transcript;
 
                         // 첫 자막 시작일때
-                        if (final_transcript.length == 0){
+                        if (final_transcript.length === 0){
                             final_transcript.push( event.results[i][0].transcript)
 
                         // 3줄이 꽉차면 1줄 지우기
-                        }else if(final_transcript.length == 4){
+                        }else if(final_transcript.length === 4){
                             final_transcript.shift();
                         }else{
                         // 자막이 계속 갱신

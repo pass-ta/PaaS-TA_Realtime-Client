@@ -1,20 +1,18 @@
-import React,{useEffect, useState,useRef} from 'react'
+import React,{useEffect, useState} from 'react'
 import './Chat.scss'
 import RenderChat from './RenderChat'
 import ChatUser from '../ChatUserTemplate/ChatUser'
 import { receiveChatData } from '../../store/action'
-import TextSizeAutoSize from 'react-textarea-autosize'
-import {AiOutlineArrowRight} from 'react-icons/ai'
 import { useDispatch } from 'react-redux'
 
 var chatdata= ""
 
 // user data의 imageurl을 넣기
 function Chat(props) {
-    const [chat,Setchat]  = useState([])
+  
     const dispatch = useDispatch()
     const io = props.io
-    const {roomname,useremail,nickname,roomtype,userimage} = props.userdata
+    const {nickname,userimage} = props.userdata
     console.log("채팅 활성화 상태:"+props.setting)
     // io.on("message",data=> {
     //     dispatch(receiveChatData(data))

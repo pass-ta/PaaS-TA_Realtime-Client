@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import Styled from 'styled-components';
 import './index.scss'
 import {GiChessKing} from 'react-icons/gi'
@@ -10,9 +10,6 @@ const Container = Styled.div`
     margin: 5px;
 `;
 
-const VideoContainer = Styled.video`
-   
-`;
 
 
 
@@ -38,10 +35,7 @@ function Video({email, nickname,stream, roomowner,audio,video,share}) {
             ref.current.srcObject = stream;
         }
         console.log(share)
-        // if(share) {
-        //     document.getElementById('aa').style.width="80%"
-        //     document.getElementById('aa').style.height="20%"
-        // }
+
     },[])
     
     return (
