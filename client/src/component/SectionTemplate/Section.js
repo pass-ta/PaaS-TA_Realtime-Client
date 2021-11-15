@@ -718,9 +718,7 @@ function Section(props) {
                 stream: e.streams[0],
                 share:share
             }]);
-            if(email===roomowner) {
-                setUsers(oldUsers=> oldUsers.filter(x=>x.email !==x.roomowner))
-            }
+            
          
           console.log(JSON.stringify(users))
           //&& props.otherShareSetting.share===false
@@ -747,7 +745,9 @@ function Section(props) {
 
    
     
-
+    if(email===roomowner) {
+        setUsers(oldUsers=> oldUsers.filter(x=>x.email !==x.roomowner))
+    }
     return (
         <>
             <div className="SectionContainer" style={{animationName:props.otherPensilsetting.toString()+"3"||"false3"}}>     
