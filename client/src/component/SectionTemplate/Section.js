@@ -117,14 +117,11 @@ function Section(props) {
                     'share':false
                 })
 
-                // Start STT
-                recognition.start();
-                console.log("STT : START")
+                
 
                 // Result about STT
-                recognition.onresult = (event) => {
+                recognition.addEventListener("result", (event) => {
                     // Create the interim transcript string locally because we don't want it to persist like final transcript
-                    
                     // // Loop through the results from the speech recognition object.
                     for (let i = event.resultIndex; i < event.results.length; ++i) {
                         // If the result item is Final, add it to Final Transcript, Else add it to Interim transcript
@@ -168,9 +165,13 @@ function Section(props) {
                         })
                     }
 
-                };       
+                });       
+                // infinite STT Start
+                recognition.addEventListener("end", recognition.start);
                 
-             
+                // Start STT
+                recognition.start();
+                console.log("STT : START")
                 
              }).catch((err)=> {
                  //console.log(err); /* handle the error */
@@ -258,17 +259,9 @@ function Section(props) {
                 })
            
  
-
-
-
-                // Start STT
-                recognition.start();
-                console.log("STT : START")
-
                 // Result about STT
-                recognition.onresult = (event) => {
+                recognition.addEventListener("result", (event) => {
                     // Create the interim transcript string locally because we don't want it to persist like final transcript
-                    
                     // // Loop through the results from the speech recognition object.
                     for (let i = event.resultIndex; i < event.results.length; ++i) {
                         // If the result item is Final, add it to Final Transcript, Else add it to Interim transcript
@@ -294,6 +287,7 @@ function Section(props) {
                             // 줄추가 : final로 확정시켰으므로 다음 자막은 밑줄로
                             final_transcript.push("");
 
+
                             // 영어자막용 : 온전한 다 문장
                             io.emit('translate_stt_message',{
                                 'nickname':userdata.nickname,
@@ -311,7 +305,13 @@ function Section(props) {
                         })
                     }
 
-                };   
+                });       
+                // infinite STT Start
+                recognition.addEventListener("end", recognition.start);
+                
+                // Start STT
+                recognition.start();
+                console.log("STT : START")
 
                 io.on('all_users',(allUsers,mydata)=> {
                     len = allUsers.length
