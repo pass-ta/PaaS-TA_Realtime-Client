@@ -715,13 +715,13 @@ function Section(props) {
             audio:audio,
             video:video,
             stream: e.streams[0],
-            share:false
+            share:share
             }]);
         
          
           console.log(JSON.stringify(users))
           //&& props.otherShareSetting.share===false
-          if(share===false) shareref.current.srcObject = e.streams[0]
+          if(share && props.otherShareSetting.share===false) shareref.current.srcObject = e.streams[0]
          
         }
         
