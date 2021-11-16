@@ -245,6 +245,8 @@ function Section(props) {
               })
             //방 전체 인원에게 share 메세지를 보내준다.
            
+        }else {
+            
         }
     },[props.otherShareSetting])
     

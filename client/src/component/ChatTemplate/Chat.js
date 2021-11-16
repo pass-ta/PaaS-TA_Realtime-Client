@@ -4,7 +4,7 @@ import RenderChat from './RenderChat'
 import ChatUser from '../ChatUserTemplate/ChatUser'
 import { receiveChatData } from '../../store/action'
 import { useDispatch } from 'react-redux'
-
+import moment from 'moment'
 var chatdata= ""
 
 // user data의 imageurl을 넣기
@@ -42,7 +42,8 @@ function Chat(props) {
         e.preventDefault()
         io.emit('message',{
             nickname,
-            chatdata
+            chatdata,
+            moment:moment().format('HH:mm:ss')
         })
       
         document.getElementById('chatinput').value=""
