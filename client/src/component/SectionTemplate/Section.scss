@@ -36,10 +36,26 @@
 
 .video {
     margin: 5px;
-    width:20%;
-    height:20%;
+ 
+    
 }
 #sharevideo {
-  width:100%;
-  height:50%;
+  height:70%;
+  position:absolute;
+}
+.NotShare {
+  display:flex;
+  
+}
+.OnShare {
+  display: flex;
+  flex-direction: column;
+  position:absolute;
+  width:20%;
+  top:0;
+  right:0;
+}
+.notshare {
+  width:20%;
+  height: 20%;
 }

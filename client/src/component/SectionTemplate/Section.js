@@ -46,7 +46,7 @@ function Section(props) {
 
     const [users,setUsers] = useState([])
     let pcs = {}
-
+    const [useShare,setShare] = useState(false)
     var videolocalref = useRef(null)
     let localStream;
     let len;
@@ -117,7 +117,7 @@ function Section(props) {
                     'video':props.setting.video,
                     'share':false
                 })
-
+               
                 
                 console.log("STT 설정")
                 if (userdata.useremail === userdata.roomowner){
@@ -295,6 +295,7 @@ function Section(props) {
             ///
             // io.disconnect()
             const SERVERPATH = "https://realtimeserver.paas-ta.org/"
+            // const SERVERPATH = "http://localhost:8080"
             io = socket.connect(SERVERPATH);
             io.on("connect",()=>{
                 console.log("화면공유 통신 ok",io.id)
@@ -311,7 +312,7 @@ function Section(props) {
                     'video':props.setting.video,
                     'share':props.otherShareSetting.share
                 })
-           
+                io.emit("sharesetting",props.otherShareSetting)
                 console.log("화면공유 STT 설정")
                 recognition.onstart = function() {
                     console.log('화면공유 STT 시작');
@@ -504,7 +505,9 @@ function Section(props) {
                 io.on('receive_translate_stt_message',data=> {
                     dispatch(receiveTranslateSubtitleData(data))
                 })
-                
+                io.on('receive_sharesetting',data=> {
+                    setShare(data.share)
+                })
             })
             console.log("share보내고 io의 id"+io.id)
             
@@ -657,7 +660,10 @@ function Section(props) {
             dispatch(receiveTranslateSubtitleData(data))
         })
        
-       
+        io.on('receive_sharesetting',data=> {
+            setShare(data.share)
+        })
+
         
        
         
@@ -753,9 +759,9 @@ function Section(props) {
                  
                 
                 {console.log("길이"+users.length)}
-                <Grid divided = "vertically">
-                    <Grid.Row columns = {columnCount}>
-                        <video
+                {/* <Grid divided = "vertically">
+                    <Grid.Row columns = {columnCount}> */}
+                        {/* <video
                             className="video"
                             id="showvideoid"
                             muted
@@ -779,11 +785,85 @@ function Section(props) {
                                 />
                         
                             )
-                        })}
-                    </Grid.Row>
-                </Grid>
-                        
-                <video id="sharevideo" autoPlay ref={shareref}></video>
+                        })} */}
+                    {/* </Grid.Row>
+                </Grid> */}
+                {/* <video id="sharevideo" autoPlay ref={shareref}></video> */}
+                {useShare?(
+                    <>
+                        <Grid>
+                            <Grid.Column Row = {columnCount}>
+                                <div className="OnShare">
+                                    <video
+                                        className="video"
+                                        id="showvideoid"
+                                        muted
+                                        ref={videolocalref}
+                                    
+
+                                        autoPlay>
+                                    </video>
+                                    {users.map((user,index)=> {
+                                        return (
+                                            
+                                            <Video
+                                                key={index}
+                                                email={user.email}
+                                                nickname = {user.nickname}
+                                                roomowner = {user.roomowner}
+                                                audio = {user.audio}
+                                                video = {user.video}
+                                                stream={user.stream}
+                                                share={user.share}
+                                            />
+                                    
+                                        )
+                                    })}
+                                </div>
+                            </Grid.Column>
+                        </Grid> 
+                        <video id="sharevideo" autoPlay ref={shareref}></video>
+                    </>
+                )
+                :
+                (
+                    <>
+                    <Grid divided = "vertically">
+                        <Grid.Row columns = {columnCount}>
+                            <div className="NotShare">
+                                <video
+                                    className="video notshare"
+                                    id="showvideoid"
+                                    muted
+                                    ref={videolocalref}
+                                
+
+                                    autoPlay>
+                                </video>
+                                {users.map((user,index)=> {
+                                    return (
+                                        
+                                        <Video
+                                            key={index}
+                                            email={user.email}
+                                            nickname = {user.nickname}
+                                            roomowner = {user.roomowner}
+                                            audio = {user.audio}
+                                            video = {user.video}
+                                            stream={user.stream}
+                                            share={user.share}
+                                        />
+                                
+                                    )
+                                })}
+                            </div>
+                        </Grid.Row>
+                    </Grid> 
+                    <video id="sharevideo" style={{display:'none'}} autoPlay ref={shareref}></video>
+
+                </>
+                )}       
+             {/* <video id="sharevideo" autoPlay ref={shareref}></video> */}
                 <Subtitle otherSubtitleSetting={props.otherGroupsetting}/>
 
                 {/* <a id="subtitles"> {userdata.nickname} {interim_transcript} </a> */}

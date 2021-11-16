@@ -18,6 +18,7 @@ import Pencil from './PencilTemplate/Pencil';
 // 테스트용 서버주소
 // const SERVERPATH = "http://localhost:8080/"
 const SERVERPATH = "https://realtimeserver.paas-ta.org/"
+//  const SERVERPATH = "http://localhost:8080/"
 const io = socket.connect(SERVERPATH);
 
 

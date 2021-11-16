@@ -5,8 +5,7 @@ import {GiChessKing} from 'react-icons/gi'
 const Container = Styled.div`
     position: relative;
     display: inline-block;
-    width:20%;
-    height:20%;
+    
     margin: 5px;
 `;
 
