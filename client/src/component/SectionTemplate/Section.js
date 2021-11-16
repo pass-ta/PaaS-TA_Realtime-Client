@@ -185,7 +185,7 @@ function Section(props) {
                         // }else{
                         //     recognition.start();
                         // }
-                        recognition.start();
+                        // recognition.start();
     
                     });
                     // // EndPoint STT : 단순 말이 끝날때를 알려줌
