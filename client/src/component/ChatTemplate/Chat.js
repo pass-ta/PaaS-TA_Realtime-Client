@@ -28,7 +28,7 @@ function Chat(props) {
             dispatch(receiveChatData(data))
         })
          
-    },[chatdata])
+    },[])
    
 
     

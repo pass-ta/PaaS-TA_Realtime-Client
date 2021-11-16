@@ -34,7 +34,7 @@ function Subtitle(props) {
             <div className="subtitleContainer" style={{animationName:props.otherSubtitleSetting.group.toString()+"4"||"false4"}}>
                     {useflag?(
                             <p id="my_p" className="preview_p"> 
-                                {usesubtitle.nickname}&nbsp;&nbsp;:&nbsp;&nbsp;{usesubtitle.message} &nbsp; 
+                                &nbsp;&nbsp;:&nbsp;&nbsp;{usesubtitle.message} &nbsp; 
                                 <br></br>
                                 &emsp;&emsp;&emsp;&emsp; {usesubtitle.message2}
                                 <br></br>
@@ -56,7 +56,7 @@ function Subtitle(props) {
                             </p>
                         )
                     }
-                    <p className="preview_p modify_p" onClick={onClickModify}>변경</p>
+                    <p className="preview_p modify_p" onClick={onClickModify}>언어변경</p>
             </div>
 
         </>

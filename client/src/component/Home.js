@@ -124,10 +124,10 @@ function Home() {
     }
     const onClickChangeBackgroundColor = (e)=> {
         
-        if(e.currentTarget.style.backgroundColor==='rgb(8, 142, 195)'){
+        if(e.currentTarget.style.backgroundColor==='rgb(230, 119, 0)'){
             e.currentTarget.style.backgroundColor = null
         }else {
-             e.currentTarget.style.backgroundColor = 'rgb(8, 142, 195)'
+             e.currentTarget.style.backgroundColor = 'rgb(230, 119, 0)'
         }
        
     }
@@ -193,11 +193,11 @@ function Home() {
                 <Chat  setting = {otherChatsetting.chat} io = {io} userdata = {userdata}/>      
                 <div className="footer">
                     <div className="menu">
-                        <p className="user_name">{userdata.nickname}</p>
+                        <p className="user_name">{userdata.nickname}님</p>
                             <div className="menu_icon">
                                 <div className="previewInform">
                                     <div id="zxc1" className="preview_p">마이크 켜기</div>
-                                    <div className="circleIcon" style={{backgroundColor:'rgb(8, 142, 195)'}} onClick={e=>onClickAudio(e)} onMouseOver={()=>onMouseover("zxc1")} onMouseLeave={()=>onMouseLeave("zxc1")}>
+                                    <div className="circleIcon" style={{backgroundColor:'#e67700'}} onClick={e=>onClickAudio(e)} onMouseOver={()=>onMouseover("zxc1")} onMouseLeave={()=>onMouseLeave("zxc1")}>
                                         {        
                                             setting.audio===true ? <AiOutlineAudio  className="icon audio"/> : <AiOutlineAudioMuted className="icon audio" />
                                         }
@@ -205,7 +205,7 @@ function Home() {
                                 </div>
                                 <div className="previewInform">
                                     <div id = "zxc2" className="preview_p">비디오 켜기</div>
-                                    <div className="circleIcon" style={{backgroundColor:'rgb(8, 142, 195)'}} onClick={e=>onClickVideo(e)} onMouseOver={()=>onMouseover("zxc2")} onMouseLeave={()=>onMouseLeave("zxc2")} >
+                                    <div className="circleIcon" style={{backgroundColor:'#e67700'}} onClick={e=>onClickVideo(e)} onMouseOver={()=>onMouseover("zxc2")} onMouseLeave={()=>onMouseLeave("zxc2")} >
                                         {                                           
                                             setting.video===true ? <AiOutlineVideoCamera  className="icon video" /> : <BiVideoOff className="icon video" />
                                         }
