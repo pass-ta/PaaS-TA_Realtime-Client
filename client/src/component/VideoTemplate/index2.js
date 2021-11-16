@@ -37,7 +37,7 @@ function Video2({email, nickname,stream, roomowner,audio,video}) {
                 
                 id ="videoindexa"
                 ref={ref}
-                muted = {true}
+                
                 autoPlay
             ></video>
             <div className="infocontainer">
