@@ -2,6 +2,7 @@ import React ,{ useEffect, useRef,useState}from 'react'
 import { receiveSubtitleData, receiveTranslateSubtitleData } from '../../store/action'
 import './Section.scss'
 import Video from '../VideoTemplate/index'
+import Video2 from '../VideoTemplate/index2'
 import {Grid} from 'semantic-ui-react'
 import useMedia from '../../useMedia'
 import { useDispatch} from 'react-redux'
@@ -620,7 +621,7 @@ function Section(props) {
             let pc = pcs[data.answerSendID]
             if(pc) {
                 pc.setRemoteDescription(new RTCSessionDescription(data.sdp))
-            }
+            }   
         })
         io.on('getCandidate',(data)=> {
             
@@ -730,9 +731,9 @@ function Section(props) {
           console.log(JSON.stringify(users))
           //&& props.otherShareSetting.share===false
           if(share && props.otherShareSetting.share===false) shareref.current.srcObject = e.streams[0]
-         
+            
         }
-        
+        videolocalref.current.srcObject = localStream
         // return pc
         return pc;
     
@@ -787,7 +788,7 @@ function Section(props) {
                             )
                         })} */}
                     {/* </Grid.Row>
-                </Grid> */}
+                </Grid> */} 
                 {/* <video id="sharevideo" autoPlay ref={shareref}></video> */}
                 {useShare?(
                     <>
@@ -806,7 +807,7 @@ function Section(props) {
                                     {users.map((user,index)=> {
                                         return (
                                             
-                                            <Video
+                                            <Video2
                                                 
                                                 key={index}
                                                 email={user.email}
@@ -815,8 +816,7 @@ function Section(props) {
                                                 audio = {user.audio}
                                                 video = {user.video}
                                                 stream={user.stream}
-                                                share={user.share}
-                                                useshare = {useShare}
+                                             
                                             />
                                     
                                         )
@@ -830,40 +830,37 @@ function Section(props) {
                 :
                 (
                     <>
-                    <Grid divided = "vertically">
-                        <Grid.Row columns = {columnCount}>
-                            <div className="NotShare">
-                                <video
-                                    className="video notshare"
-                                    id="showvideoid"
-                                    muted
-                                    ref={videolocalref}
-                                
-
-                                    autoPlay>
-                                </video>
-                                {users.map((user,index)=> {
-                                    return (
+                    <Grid>
+                            <Grid.Column Row = {columnCount}>
+                                <div className="NotShare">
+                                    <video
+                                        className="video notshare"
+                                        id="showvideoid"
+                                        muted
+                                        ref={videolocalref}
+                                        autoPlay>
+                                    </video>
+                                    {users.map((user,index)=> {
+                                        return (
+                                            
+                                            <Video
+                                                key={index}
+                                                email={user.email}
+                                                nickname = {user.nickname}
+                                                roomowner = {user.roomowner}
+                                                audio = {user.audio}
+                                                video = {user.video}
+                                                stream={user.stream}
                                         
-                                        <Video
-                                            key={index}
-                                            email={user.email}
-                                            nickname = {user.nickname}
-                                            roomowner = {user.roomowner}
-                                            audio = {user.audio}
-                                            video = {user.video}
-                                            stream={user.stream}
-                                            share={user.share}
-                                            useshare = {useShare}
-                                        />
-                                
-                                    )
-                                })}
-                            </div>
-                        </Grid.Row>
-                    </Grid> 
-                    <video id="sharevideo" style={{display:'none'}} autoPlay ref={shareref}></video>
-
+                                            />
+                                    
+                                        )
+                                    })}
+                                </div>
+                            </Grid.Column>
+                        </Grid> 
+                        <video id="sharevideo" style={{display:'none'}} autoPlay ref={shareref}></video>
+                      
                 </>
                 )}       
              {/* <video id="sharevideo" autoPlay ref={shareref}></video> */}

@@ -1,13 +1,13 @@
-import React, { useEffect, useRef ,useState} from 'react';
-import Styled from 'styled-components';
-import './index.scss'
+import React, { useEffect, useRef} from 'react';
+
+import './index2.scss'
 import {GiChessKing} from 'react-icons/gi'
 
 
 
 
 
-function Video({email, nickname,stream, roomowner,audio,video}) {
+function Video2({email, nickname,stream, roomowner,audio,video}) {
 
     const ref = useRef(null);
     console.log(typeof audio)
@@ -27,15 +27,15 @@ function Video({email, nickname,stream, roomowner,audio,video}) {
         }else {
             ref.current.srcObject = stream;
         }
-      
+    
        
       
     },[])
     return (
-        <div id="aa"> 
+        <div id="aaa"> 
             <video
                 
-                id ="videoindex"
+                id ="videoindexa"
                 ref={ref}
                 muted = {true}
                 autoPlay
@@ -52,4 +52,4 @@ function Video({email, nickname,stream, roomowner,audio,video}) {
     );
 }
 
-export default Video;
+export default Video2;
