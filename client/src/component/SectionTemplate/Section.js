@@ -807,6 +807,7 @@ function Section(props) {
                                         return (
                                             
                                             <Video
+                                                
                                                 key={index}
                                                 email={user.email}
                                                 nickname = {user.nickname}
@@ -815,6 +816,7 @@ function Section(props) {
                                                 video = {user.video}
                                                 stream={user.stream}
                                                 share={user.share}
+                                                useshare = {useShare}
                                             />
                                     
                                         )
@@ -852,6 +854,7 @@ function Section(props) {
                                             video = {user.video}
                                             stream={user.stream}
                                             share={user.share}
+                                            useshare = {useShare}
                                         />
                                 
                                     )

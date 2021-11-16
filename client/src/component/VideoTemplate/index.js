@@ -2,19 +2,14 @@ import React, { useEffect, useRef } from 'react';
 import Styled from 'styled-components';
 import './index.scss'
 import {GiChessKing} from 'react-icons/gi'
-const Container = Styled.div`
-    position: relative;
-    display: inline-block;
-    width:20%;
-    height:20%;
-    margin: 5px;
-`;
 
 
 
 
 
-function Video({email, nickname,stream, roomowner,audio,video,share}) {
+
+function Video({email, nickname,stream, roomowner,audio,video,share,useshare}) {
+    
     const ref = useRef(null);
  
     console.log(typeof audio)
@@ -34,13 +29,19 @@ function Video({email, nickname,stream, roomowner,audio,video,share}) {
         }else {
             ref.current.srcObject = stream;
         }
-        console.log(share)
-
+        
+       
     },[])
-    
+   
+    const Container = Styled.div`
+        position: relative;
+        display: inline-block;
+        width:${useshare===true ? '60%' : '20%'};
+        height:${useshare===true ? '60%' : '20%'};
+        margin: 5px;
+    `;
     return (
-        <Container id="aa">
-            {console.log("마지막 오디오 체크"+audio)}
+        <Container id="aa"> 
             <video
                 style={{width:"100%" ,height:"100%",
                     backgroundColor: "black"}}
