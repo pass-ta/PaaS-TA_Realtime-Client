@@ -479,18 +479,18 @@ function Section(props) {
                     }
                 })
         
-                io.on('user_exit',data=> {
+                // io.on('user_exit',data=> {
         
-                    pcs[data.id].close()
-                    delete pcs[data.id]
-                    setUsers(oldUsers=>oldUsers.filter(user=> user.id!==data.id))
+                //     pcs[data.id].close()
+                //     delete pcs[data.id]
+                //     setUsers(oldUsers=>oldUsers.filter(user=> user.id!==data.id))
         
                    
         
-                    Notify.failure(`${data.nickname}님이 나갔습니다.`);
+                //     Notify.failure(`${data.nickname}님이 나갔습니다.`);
                     
                    
-                })
+                // })
                 // //만약 지금 사용자가 방장이면
                 // //receiveGazeAlert를 받았다면,
                 // io.on('receiveGazeAlert',(data)=> {
