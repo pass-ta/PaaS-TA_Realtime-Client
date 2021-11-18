@@ -161,10 +161,10 @@ function Home() {
               
                 //django 서버로 연결되어있던 시간을 보내주기 위함.
                 if(userdata.roomowner === userdata.useremail){
-                    window.location.assign(`https://hmys-hiclass.paas-ta.org/home/classout/${userdata.roomowner}`)
+                    window.location.assign(`https://hmys-hiclass.paas-ta.org/home/classout/teacher`)
                 }else {
 
-                    window.location.assign(`https://hmys-hiclass.paas-ta.org/home/classout/${userdata.useremail}`)
+                    window.location.assign(`https://hmys-hiclass.paas-ta.org/home/classout/student`)
                 }
             }else {
                 //아무 동작 하지 않는다.
