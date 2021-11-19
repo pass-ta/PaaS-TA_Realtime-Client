@@ -13,6 +13,7 @@ npm start
 ```
 * npm 환경에서 돌아가는 서비스 입니다. 실행 전 npm이 설치되어 있는지 확인해야 합니다.
 ## 🎨 Preview
+[https://www.youtube.com/watch?v=NjNh38PI3P4](https://www.youtube.com/watch?v=NjNh38PI3P4)
 ## 📽️WebRTC
 ![undefined (3)](https://user-images.githubusercontent.com/48875061/142192307-818cfbed-69ea-4977-b628-ab9b01b5f8da.jpg)  
 - Peer Connection  
