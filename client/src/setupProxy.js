@@ -1,13 +1,12 @@
-const { createProxyMiddleware } = require('http-proxy-middleware')
-const { createDispatchHook } = require('react-redux')
+// import createProxyMiddleware from 'http-proxy-middleware'
 
-module.export = function(app) {
-    app.use(
-        "socket.io",
-        createProxyMiddleware({
-            target: "https://development--pedantic-einstein-75bdbe.netlify.app/",
-            changeOrigin: true
+// module.export = function(app) {
+//     app.use(
+//         "socket.io",
+//         createProxyMiddleware({
+//             target: "https://development--pedantic-einstein-75bdbe.netlify.app/",
+//             changeOrigin: true
 
-        })
-    )
-}
+//         })
+//     )
+// }
