@@ -298,7 +298,9 @@ function Section(props) {
             // const SERVERPATH = "https://realtimeserver.paas-ta.org/"
             const SERVERPATH = "https://nonmoon1818.herokuapp.com/"
             // const SERVERPATH = "http://localhost:8080"
-            io = socket.connect(SERVERPATH);
+            io = socket.connect(SERVERPATH, {
+                cors: { origin: '*' }
+            });
             io.on("connect",()=>{
                 console.log("화면공유 통신 ok",io.id)
                 
