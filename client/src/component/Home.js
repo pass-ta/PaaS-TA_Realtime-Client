@@ -197,7 +197,7 @@ function Home() {
                     <div className="menu">
                         <p className="user_name">{userdata.nickname}님</p>
                             <div className="menu_icon">
-                                {/* <div className="previewInform">
+                                <div className="previewInform">
                                     <div id="zxc1" className="preview_p">마이크 켜기</div>
                                     <div className="circleIcon" style={{backgroundColor:'#e67700'}} onClick={e=>onClickAudio(e)} onMouseOver={()=>onMouseover("zxc1")} onMouseLeave={()=>onMouseLeave("zxc1")}>
                                         {        
@@ -239,7 +239,7 @@ function Home() {
                                     <div className="circleIcon" onClick={onClickGroup} onMouseOver={()=>onMouseover("zxc5")} onMouseLeave={()=>onMouseLeave("zxc5")}>
                                       <MdOutlineSubtitles className="icon fullscreen"/>
                                     </div>      
-                                </div> */}
+                                </div>
                                 {/* <div className="previewInform">
                                     <div id = "zxc3"className="preview_p">회의 나가기</div>
                                     <div className="exit" onClick={onClickExit} onMouseOver={()=>onMouseover("zxc3")} onMouseLeave={()=>onMouseLeave("zxc3")} >

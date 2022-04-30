@@ -123,7 +123,7 @@ function Section(props) {
                 console.log("STT 설정")
                 if (userdata.useremail === userdata.roomowner){
                     recognition.onstart = function() {
-                        console.log('STT 시작');
+                        
                       }
                     // Result about STT
                     recognition.addEventListener("result", (event) => {
@@ -177,8 +177,8 @@ function Section(props) {
                     // console.log("STT End 설정완료")     
                     recognition.addEventListener("end", function() {
                         
-                        console.log("end Reconition & Restart")
-                        console.log(localStorage.getItem("recognition_status"))
+                        
+             
                         // if ( localStorage.getItem("recognition_status") == "capture"){
                         //     console.log("화면공유 cature")
                         //     recognition.stop();
@@ -303,7 +303,7 @@ function Section(props) {
             });
             io.on("connect",()=>{
                 console.log("화면공유 통신 ok",io.id)
-                
+                console.log(io)
 
                 
                 io.emit('join room',{
@@ -402,14 +402,6 @@ function Section(props) {
                         let pc = pcs[allUsers[i].id]
                         
                         if(pc){
-                            
-                            //                     iceRestart 선택 과목
-                            // 활성 연결에서 ICE를 다시 시작하려면 이것을 로 설정하십시오 
-                            // true. 이렇게 하면 반환된 제안이 이미 있는 것과 다른 자격 증명을 갖게 됩니다.
-                            // 그런 다음 반환된 제안을 적용하면 ICE가 다시 시작됩니다. false동일한 자격 
-                            // 증명을 유지하고 ICE를 다시 시작하지 않도록 지정 합니다. 
-                            // 기본값은 false 입니다.
-                            // re rendering 되더라도 자격증명이 똑같으면 offer이 새로 되지 않는다
                             pc.createOffer({
                                 iceRestart : true,
                                 offerToReceiveAudio:true,
@@ -556,14 +548,7 @@ function Section(props) {
                 let pc = pcs[allUsers[i].id]
                 
                 if(pc){
-                    //
-                    //                     iceRestart 선택 과목
-                    // 활성 연결에서 ICE를 다시 시작하려면 이것을 로 설정하십시오 
-                    //true. 이렇게 하면 반환된 제안이 이미 있는 것과 다른 자격 증명을 갖게 됩니다.
-                    //그런 다음 반환된 제안을 적용하면 ICE가 다시 시작됩니다. false동일한 자격 
-                    //증명을 유지하고 ICE를 다시 시작하지 않도록 지정 합니다. 
-                    //기본값은 false 입니다.
-                    //re rendering 되더라도 자격증명이 똑같으면 offer이 새로 되지 않는다
+
                     pc.createOffer({
                         iceRestart : true,
                         offerToReceiveAudio:true,
@@ -792,11 +777,11 @@ function Section(props) {
                         })} */}
                     {/* </Grid.Row>
                 </Grid> */} 
-                {/* <video id="sharevideo" autoPlay ref={shareref}></video> */}
+                <video id="sharevideo" autoPlay ref={shareref}></video>
                 {useShare?(
                     <>
                         <Grid>
-                            <Grid.Column Row = {columnCount}>
+                            <Grid.Column>
                                 <div className="OnShare">
                                     <video
                                         className="video"
@@ -834,7 +819,7 @@ function Section(props) {
                 (
                     <>
                     <Grid>
-                            <Grid.Column Row = {columnCount}>
+                            <Grid.Column>
                                 <div className="NotShare">
                                     <video
                                         className="video notshare"
@@ -866,7 +851,7 @@ function Section(props) {
                       
                 </>
                 )}       
-             {/* <video id="sharevideo" autoPlay ref={shareref}></video> */}
+             <video id="sharevideo" autoPlay ref={shareref}></video>
                 <Subtitle otherSubtitleSetting={props.otherGroupsetting}/>
 
                 {/* <a id="subtitles"> {userdata.nickname} {interim_transcript} </a> */}
