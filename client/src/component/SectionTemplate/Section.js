@@ -295,7 +295,8 @@ function Section(props) {
             
             ///
             // io.disconnect()
-            const SERVERPATH = "https://realtimeserver.paas-ta.org/"
+            // const SERVERPATH = "https://realtimeserver.paas-ta.org/"
+            const SERVERPATH = "https://nonmoon1818.herokuapp.com/"
             // const SERVERPATH = "http://localhost:8080"
             io = socket.connect(SERVERPATH);
             io.on("connect",()=>{
