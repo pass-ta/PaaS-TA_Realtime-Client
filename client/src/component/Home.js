@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Section from './SectionTemplate/Section'
-import socket from 'socket.io'
+import socket from 'socket.io-client'
 import './Home.scss'
 import {AiOutlineAudioMuted, AiOutlineAudio,AiOutlineVideoCamera} from "react-icons/ai";
 import {BiVideoOff} from 'react-icons/bi'
