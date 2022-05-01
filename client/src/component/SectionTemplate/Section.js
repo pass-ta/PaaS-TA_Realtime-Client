@@ -296,7 +296,7 @@ function Section(props) {
             ///
             // io.disconnect()
             // const SERVERPATH = "https://realtimeserver.paas-ta.org/"
-            const SERVERPATH = "https://nonmoon1818.herokuapp.com"
+            const SERVERPATH = "http://ec2-3-38-247-155.ap-northeast-2.compute.amazonaws.com:8080/"
             // const SERVERPATH = "http://localhost:8080"
             io = socket.connect(SERVERPATH, {
                 cors: { origin: '*' }
