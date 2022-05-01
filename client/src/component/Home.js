@@ -16,7 +16,7 @@ import Pencil from './PencilTemplate/Pencil';
 //배포용 서버 주소
 //const SERVERPATH = "https://realtimeserver.paas-ta.org/"
 // 테스트용 서버주소
-const SERVERPATH = "https://nonmoon1818.herokuapp.com:80"
+const SERVERPATH = "https://nonmoon1818.herokuapp.com"
 // const SERVERPATH = "https://realtimeserver.paas-ta.org/"
 //  const SERVERPATH = "http://localhost:8080"
 const io = socket.connect(SERVERPATH, {
