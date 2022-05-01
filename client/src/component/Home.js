@@ -56,16 +56,16 @@ function Home() {
     const {id} = useParams() // roomname
     useEffect(()=> {
         //roomname을 잘못 치고 들어온경우
-        if(window.performance.navigation.type ===1) {
-           window.location.assign("https://pedantic-einstein-75bdbe.netlify.app/errorpage")
-        }
-        if(userdata.roomname!==id) {
-            window.location.assign("https://pedantic-einstein-75bdbe.netlify.app/errorpage")
-            //userdata가 다르다고  에러페이지로 전송
-        }
-        if(userdata.nickname==="") {
-            window.location.assign("https://pedantic-einstein-75bdbe.netlify.app/errorpage")
-        }
+        // if(window.performance.navigation.type ===1) {
+        //    window.location.assign("https://pedantic-einstein-75bdbe.netlify.app/errorpage")
+        // }
+        // if(userdata.roomname!==id) {
+        //     window.location.assign("https://pedantic-einstein-75bdbe.netlify.app/errorpage")
+        //     //userdata가 다르다고  에러페이지로 전송
+        // }
+        // if(userdata.nickname==="") {
+        //     window.location.assign("https://pedantic-einstein-75bdbe.netlify.app/errorpage")
+        // }
         
 
     },[])
