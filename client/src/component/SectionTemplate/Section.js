@@ -103,7 +103,8 @@ function Section(props) {
             console.log('??',props.setting)
             navigator.mediaDevices.getUserMedia(
                 {
-                    'video': true
+                    audio: true,
+                    video: { width: 1280, height: 720 }
                 }
              ).then((stream)=> {
                 console.log(stream.getTracks())
@@ -299,8 +300,8 @@ function Section(props) {
             ///
             // io.disconnect()
             // const SERVERPATH = "https://realtimeserver.paas-ta.org/"
-            const SERVERPATH = "http://ec2-3-38-247-155.ap-northeast-2.compute.amazonaws.com:8080/"
-            // const SERVERPATH = "http://localhost:8080"
+            // const SERVERPATH = "http://54.163.12.139:8080"
+            const SERVERPATH = "http://34.227.49.109/"
             io = socket.connect(SERVERPATH, {
                 cors: { origin: '*' }
             });
