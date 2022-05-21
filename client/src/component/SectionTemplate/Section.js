@@ -752,7 +752,7 @@ function Section(props) {
                  
                 
                 {console.log("길이"+users.length)}
-                <Grid divided = "vertically">
+                {/* <Grid divided = "vertically">
                     <Grid.Row columns = {columnCount}>
                         <video
                             className="video"
@@ -780,7 +780,7 @@ function Section(props) {
                             )
                         })}
                     </Grid.Row>
-                </Grid>
+                </Grid> */}
                 <video id="sharevideo" autoPlay ref={shareref}></video>
                 {useShare?(
                     <>

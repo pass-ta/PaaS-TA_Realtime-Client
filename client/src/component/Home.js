@@ -191,8 +191,8 @@ function Home() {
         <>
             <div className="HomeSection" >
                 <Section  setting = {setting} otherPensilsetting={otherPencilSetting.pencil} otherShareSetting={otherShareSetting} otherGroupsetting={otherGroupsetting} io = {io} userdata = {userdata}/> 
-                {/* <Group setting = {otherGroupsetting.group} userdata=  {userdata.roomtype}/> */}
-                {/* <Chat  setting = {otherChatsetting.chat} io = {io} userdata = {userdata}/>       */}
+                <Group setting = {otherGroupsetting.group} userdata=  {userdata.roomtype}/>
+                <Chat  setting = {otherChatsetting.chat} io = {io} userdata = {userdata}/>
                 <div className="footer">
                     <div className="menu">
                         <p className="user_name">{userdata.nickname}님</p>
