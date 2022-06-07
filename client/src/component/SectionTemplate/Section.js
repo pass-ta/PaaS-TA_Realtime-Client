@@ -301,7 +301,7 @@ function Section(props) {
             // io.disconnect()
             // const SERVERPATH = "https://realtimeserver.paas-ta.org/"
             // const SERVERPATH = "http://54.163.12.139:8080"
-            const SERVERPATH = "http://3.39.22.79"
+            const SERVERPATH = "http://13.124.174.89:8080"
             io = socket.connect(SERVERPATH, {
                 cors: { origin: '*' }
             });
