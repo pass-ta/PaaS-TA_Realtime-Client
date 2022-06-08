@@ -240,12 +240,12 @@ function Home() {
                                       <MdOutlineSubtitles className="icon fullscreen"/>
                                     </div>      
                                 </div>
-                                {/* <div className="previewInform">
+                                <div className="previewInform">
                                     <div id = "zxc3"className="preview_p">회의 나가기</div>
                                     <div className="exit" onClick={onClickExit} onMouseOver={()=>onMouseover("zxc3")} onMouseLeave={()=>onMouseLeave("zxc3")} >
                                         <ImExit className="exiticon icon"/>
                                     </div>
-                                </div>       */}
+                                </div>      
                             </div>
                                 
                         </div>

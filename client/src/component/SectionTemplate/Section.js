@@ -125,83 +125,83 @@ function Section(props) {
                
                 
                 console.log("STT 설정")
-                // if (userdata.useremail === userdata.roomowner){
-                //     recognition.onstart = function() {
+                if (userdata.useremail === userdata.roomowner){
+                    recognition.onstart = function() {
                         
-                //       }
-                //     // Result about STT
-                //     recognition.addEventListener("result", (event) => {
-                //         console.log("STT Result 함수")
-                //         // Create the interim transcript string locally because we don't want it to persist like final transcript
-                //         // // Loop through the results from the speech recognition object.
-                //         for (let i = event.resultIndex; i < event.results.length; ++i) {
-                //             // If the result item is Final, add it to Final Transcript, Else add it to Interim transcript
-                //             // interim_transcript += event.results[i][0].transcript;
+                      }
+                    // Result about STT
+                    recognition.addEventListener("result", (event) => {
+                        console.log("STT Result 함수")
+                        // Create the interim transcript string locally because we don't want it to persist like final transcript
+                        // // Loop through the results from the speech recognition object.
+                        for (let i = event.resultIndex; i < event.results.length; ++i) {
+                            // If the result item is Final, add it to Final Transcript, Else add it to Interim transcript
+                            // interim_transcript += event.results[i][0].transcript;
     
-                //             // 첫 자막 시작일때
-                //             if (final_transcript.length === 0){
-                //                 final_transcript.push( event.results[i][0].transcript)
+                            // 첫 자막 시작일때
+                            if (final_transcript.length === 0){
+                                final_transcript.push( event.results[i][0].transcript)
     
-                //             // 3줄이 꽉차면 1줄 지우기
-                //             }else if(final_transcript.length === 4){
-                //                 final_transcript.shift();
-                //             }else{
-                //             // 자막이 계속 갱신
-                //                 final_transcript[final_transcript.length-1] = event.results[i][0].transcript
-                //             }
+                            // 3줄이 꽉차면 1줄 지우기
+                            }else if(final_transcript.length === 4){
+                                final_transcript.shift();
+                            }else{
+                            // 자막이 계속 갱신
+                                final_transcript[final_transcript.length-1] = event.results[i][0].transcript
+                            }
     
-                //             console.log(final_transcript.length)
-                //             if (event.results[i].isFinal) {
-                //                 // 계속 갱신되는 자막에 final로 확정시켜줌
-                //                 final_transcript[final_transcript.length-1] = event.results[i][0].transcript;
+                            console.log(final_transcript.length)
+                            if (event.results[i].isFinal) {
+                                // 계속 갱신되는 자막에 final로 확정시켜줌
+                                final_transcript[final_transcript.length-1] = event.results[i][0].transcript;
     
-                //                 // 줄추가 : final로 확정시켰으므로 다음 자막은 밑줄로
-                //                 final_transcript.push("");
+                                // 줄추가 : final로 확정시켰으므로 다음 자막은 밑줄로
+                                final_transcript.push("");
     
     
-                //                 // 영어자막용 : 온전한 다 문장
-                //                 io.emit('translate_stt_message',{
-                //                     'nickname':userdata.nickname,
-                //                     'message':final_transcript[0],
-                //                     'message2':final_transcript[1],
-                //                     'message3' :final_transcript[2]
-                //                 })
-                //             }
-                //             // 한글 자막
-                //             io.emit('stt_message',{
-                //                 'nickname':userdata.nickname,
-                //                 'message':final_transcript[0],
-                //                 'message2':final_transcript[1],
-                //                 'message3' :final_transcript[2]
-                //             })
-                //         }
+                                // 영어자막용 : 온전한 다 문장
+                                io.emit('translate_stt_message',{
+                                    'nickname':userdata.nickname,
+                                    'message':final_transcript[0],
+                                    'message2':final_transcript[1],
+                                    'message3' :final_transcript[2]
+                                })
+                            }
+                            // 한글 자막
+                            io.emit('stt_message',{
+                                'nickname':userdata.nickname,
+                                'message':final_transcript[0],
+                                'message2':final_transcript[1],
+                                'message3' :final_transcript[2]
+                            })
+                        }
     
-                //     });  
-                //     // infinite STT Start
-                //     // console.log("STT End 설정완료")     
-                //     recognition.addEventListener("end", function() {
+                    });  
+                    // infinite STT Start
+                    // console.log("STT End 설정완료")     
+                    recognition.addEventListener("end", function() {
                         
                         
              
-                //         // if ( localStorage.getItem("recognition_status") == "capture"){
-                //         //     console.log("화면공유 cature")
-                //         //     recognition.stop();
-                //         // }else{
-                //         //     recognition.start();
-                //         // }
-                //         recognition.start();
+                        // if ( localStorage.getItem("recognition_status") == "capture"){
+                        //     console.log("화면공유 cature")
+                        //     recognition.stop();
+                        // }else{
+                        //     recognition.start();
+                        // }
+                        recognition.start();
     
-                //     });
-                //     // // EndPoint STT : 단순 말이 끝날때를 알려줌
-                //     // recognition.addEventListener('speechend', function() {
-                //     //     console.log('Speech has stopped being detected');
+                    });
+                    // // EndPoint STT : 단순 말이 끝날때를 알려줌
+                    // recognition.addEventListener('speechend', function() {
+                    //     console.log('Speech has stopped being detected');
                         
-                //     // });
+                    // });
                     
-                //     // Start STT
-                //     recognition.start();
-                //     console.log("STT : START")
-                // }
+                    // Start STT
+                    recognition.start();
+                    console.log("STT : START")
+                }
                 
                 
              }).catch((err)=> {
